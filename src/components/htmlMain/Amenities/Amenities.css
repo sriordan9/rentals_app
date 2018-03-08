@@ -1,0 +1,16 @@
+.amenities ul {
+    list-style-type: none;
+    text-align: left;
+    color: whitesmoke;
+    text-align: left;
+}
+
+.amenities section {
+    display: inline-block;
+    background-color: rgba(11, 60, 93, .8);
+}
+
+.amenities {
+    margin-top: 50px;
+}
+

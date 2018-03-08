@@ -1,9 +1,13 @@
 .App {
   text-align: center;
 }
-
-img {
-  max-height: 600px;
-  margin: 30px auto;
-  max-width: 100%;
+.App_ul li {
+  background-color: rgba(11, 60, 93, .8);
+  list-style-type: none;
+  display: inline-block;
+  margin: 5px;
+  color: whitesmoke;
+}
+.App_ul {
+  margin: auto;
 }

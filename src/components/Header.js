@@ -4,13 +4,17 @@ import './Header.css';
 const header = (props) => {
     return (
         <div className="header">
-            <p className="headerSymbol">Supernatural Apartments</p>
-            <ul>
-                <li>Amenities/Features</li>
-                <li>Pricing</li>
-                <li>Residents</li>
-                <li>Contact Us</li>
-            </ul>
+            <header>
+                <p className="headerSymbol"><a href="/">Supernatural Apartments</a></p>
+                <nav>
+                    <ul>
+                        <li><a href="/amenities">Amenities/Features</a></li>
+                        <li><a href="/pricing">Pricing</a></li>
+                        <li><a href="/residents">Residents</a></li>
+                        <li>Contact Us</li>
+                    </ul>
+                </nav>
+            </header>
         </div>
     );
 };

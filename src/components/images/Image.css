@@ -1,0 +1,5 @@
+.image img {
+    max-height: 600px;
+    margin: 30px auto;
+    max-width: 100%;
+}
