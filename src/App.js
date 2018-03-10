@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import './App.css';
-// import MainImage from './components/images/Image';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HtmlMain from './components/htmlMain/HtmlMain';
-// import Home from './containers/Home/Home';
 
 class App extends Component {
   render() {
