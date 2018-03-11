@@ -18,7 +18,11 @@ const header = (props) => {
                         <li><a href="/amenities">Amenities/Features</a></li>
                         <li><a href="/pricing">Pricing</a></li>
                         <li><a href="/residents">Residents</a></li>
-                        <li>Contact Us</li>
+                        <li className="contactButton"><a>Contact Us</a></li>
+                        <ul className="contactInfo">
+                            <li>Phone: 1-800-867-5309</li>
+                            <li>Email: jennyjenny@famousong.com</li>
+                        </ul>
                     </ul>
                 </nav>
             </header>

@@ -1,26 +1,56 @@
-/* Reset Browser Styles */
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    vertical-align: baseline;
+@media only screen and (max-width: 650px) {
+    .contactButton {
+        text-align: left;
+    }
 }
-
-/* End Reset Browser Styles */
-
+.contactInfo {
+    border: 1px solid whitesmoke;
+    color: whitesmoke;
+    font-size: .8em;
+    padding: 0;
+    text-align: left;
+}
+@media only screen and (min-width: 650px) {
+    ul.contactInfo {
+        animation: slideUp 0.5s;
+        display: none;
+        background-color: rgba(11, 60, 93, .8);
+        border: none;
+        color: white;
+        height: 100px;
+        max-width: 250px; 
+        position: absolute;
+        right: 0px;
+    }
+}
+@keyframes slideUp {
+    0%{
+        opacity: 0;
+        transform: translateY(30px)
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+.contactInfo li:first-of-type {
+    padding-top: 20px;
+}
+.contactButton:hover + .contactInfo {
+    display: block;
+}
 .header {
     background-color: #0B3C5D;
     height: 80px;
     margin: auto;
     max-width: 1100px;
 }
-.header a {
-    text-decoration: none;
-}
-.header a:visited, a:link {
+a, a:visited, a:link {
     color: whitesmoke;
     text-decoration: none;
+}
+a:hover {
+    color: #328CC1;
 }
 .header li {
     color: whitesmoke;
@@ -67,6 +97,7 @@
     display: none;
     list-style-type: none;
     margin-top: 0;
+    padding: 0;
     position: absolute;
     right: 0;
     text-align: right;
@@ -74,6 +105,7 @@
 }
 @media only screen and (min-width: 650px) { 
     .header #list {
+        position: relative;
         background-color: transparent;
         display: block;
         top: 37px;
