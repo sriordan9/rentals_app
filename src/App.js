@@ -19,25 +19,51 @@ class App extends Component {
     ],
     inputs: [
       [
-        {id: '7', type: 'radio', value:'1'},
-        {id: '8', type: 'radio', value:'2'},
-        {id: '9', type: 'radio', value:'3'}
+        {id: '7', type: 'radio', value: 1, name: 'rooms'},
+        {id: '8', type: 'radio', value: 2, name: 'rooms'},
+        {id: '9', type: 'radio', value: 3, name: 'rooms'}
       ],
       [
-        {id: '9', type: 'radio', value:'Yes'},
-        {id: '10', type: 'radio', value:'No'},
+        {id: '10', type: 'radio', value:'Yes', name: 'hardwood'},
+        {id: '11', type: 'radio', value:'No', name: 'hardwood'},
       ],
       [
-        {id: '11', type: 'radio', value:'Yes'},
-        {id: '12', type: 'radio', value:'No'},
+        {id: '12', type: 'radio', value:'Yes', name: 'wheelchair'},
+        {id: '13', type: 'radio', value:'No', name: 'wheelchair'},
       ],
       [
-        {id: '9', type: 'radio', value:'Yes'},
-      ]
-    ]
+        {id: '14', type: 'radio', value:'Yes', name: 'pets'},
+        {id: '15', type: 'radio', value:'No', name: 'pets'},
+      ],
+      [
+        {id: '16', type: 'radio', value:'Yes', name: 'fireplace'},
+        {id: '17', type: 'radio', value:'No', name: 'fireplace'},
+      ],
+    ],
+    inputValues: {rooms: 0, hardwood: 'none', wheelchair: 'none',
+      pets: 'none', fireplace: 'none'}
   }
-  //create dynamic header
 
+  //function to handl error for no rooms chosen
+
+  handleInputChange = (event) => {
+
+    let copyForm = {...this.state.inputValues};
+    copyForm[event.target.name] = event.target.value;
+
+    this.setState({
+      inputValues: {...copyForm}
+    });
+  }
+
+  handleSubmit = (events) => {
+    console.log(this.state.inputValues.rooms);
+    console.log(this.state.inputValues.hardwood);
+    console.log(this.state.inputValues.wheelchair);
+    console.log(this.state.inputValues.pets);
+    console.log(this.state.inputValues.fireplace);
+
+  }
 
   render() {
     return (
@@ -45,7 +71,8 @@ class App extends Component {
         <div className="App">
           <Header />
           <HtmlMain />
-          <AvailableForm inputs={this.state.inputs}/>
+          <AvailableForm inputs={this.state.inputs} onChange={this.handleInputChange}
+            onClick={this.handleSubmit}/>
           <ul className="App_ul">
             <li>Available Apartments</li>
             <li>Apply Here!</li>
