@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HtmlMain from './components/htmlMain/HtmlMain';
 import AvailableForm from './components/htmlMain/AvailableForm/AvailableForm';
+import Axios from 'axios';
 
 class App extends Component {
   state = {
@@ -57,12 +58,10 @@ class App extends Component {
   }
 
   handleSubmit = (events) => {
-    console.log(this.state.inputValues.rooms);
-    console.log(this.state.inputValues.hardwood);
-    console.log(this.state.inputValues.wheelchair);
-    console.log(this.state.inputValues.pets);
-    console.log(this.state.inputValues.fireplace);
-
+    Axios.post('http://localhost:3001/', {
+      inputValues: this.state.inputValues
+    })
+      .then((response) => {console.log(response)});
   }
 
   render() {
