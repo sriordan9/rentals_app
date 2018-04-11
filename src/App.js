@@ -41,8 +41,11 @@ class App extends Component {
         {id: '17', type: 'radio', value:'No', name: 'fireplace'},
       ],
     ],
-    inputValues: {rooms: 0, hardwood: 'none', wheelchair: 'none',
-      pets: 'none', fireplace: 'none'}
+    inputValues: {
+      rooms: 0, hardwood: 'none', wheelchair: 'none',
+      pets: 'none', fireplace: 'none'
+    },
+    availableRooms: 'original value'
   }
 
   //function to handl error for no rooms chosen
@@ -61,7 +64,15 @@ class App extends Component {
     Axios.post('http://localhost:3001/', {
       inputValues: this.state.inputValues
     })
-      .then((response) => {console.log(response)});
+      .then((response) => { 
+        let data = response.data; //entire response is an object that includes header, status code, etc.
+        console.log(response)
+        this.setState({
+          availableRooms: data
+        });
+        console.log(`New availableRooms state:`);
+        console.log(this.state.availableRooms);
+      });
   }
 
   render() {

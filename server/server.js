@@ -25,27 +25,50 @@ connection.connect((error) => {
 });
 
 // connection.query('CREATE TABLE test (name varchar(10), dob date);', () => console.log('table created'));
-connection.query('SELECT * FROM parent;', (error, rows) => {
-    if(error) {
-        console.log('An error has occured');
-    } 
-    console.log(rows[0]); // RETURNS an array of objects
+// connection.query('SELECT * FROM parent;', (error, rows) => {
+//     if(error) {
+//         console.log('An error has occured');
+//     } 
+    // console.log(rows[0]); 
+    
+    // RETURNS an array of objects
     // rows.forEach((row) => console.log(row.id))
     // let array = [...rows];
     // console.log(array);
-
-});
-
-// connection.query('');
+// });
 
 app.post('/', (req, res) => {
 
-    let data = req.body.inputValues;
+    //place query commands into variables so you can reuse the promise function with different commands
+
+    let queryPromise = () => {
+
+        let promise = new Promise((resolve, reject) => {
+            connection.query('SELECT * FROM parent;', (error, data) => {
+                
+                if (error) {
+                    return reject(error);
+                }
+                console.log('before resolve');
+                console.log(data[0].id);
+                resolve(data);
+            });
+        });
+        return promise;
+    }
+
+    queryPromise()
+        .then((data) => {
+            console.log(`.then data printing:`);
+            console.log(data[1].id);
+
+            let formData = req.body.inputValues;
+
+            res.send(JSON.stringify(data[2].id)); //needs to be in JSON bc axios will auto parse it on front end
     
-    console.log(data.hardwood);
-
-    res.send('Request delivered');
-
+            console.log(formData.hardwood);  
+        })
+        .catch((error) => console.log("Sean's error message"));
 });
 
 app.listen(3001, () => {
