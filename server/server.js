@@ -44,7 +44,7 @@ app.post('/', (req, res) => {
     let queryPromise = () => {
 
         let promise = new Promise((resolve, reject) => {
-            connection.query('SELECT * FROM parent;', (error, data) => {
+            connection.query('SELECT * FROM unit;', (error, data) => {
                 
                 if (error) {
                     return reject(error);
@@ -60,11 +60,11 @@ app.post('/', (req, res) => {
     queryPromise()
         .then((data) => {
             console.log(`.then data printing:`);
-            console.log(data[1].id);
+            console.log(data);
 
             let formData = req.body.inputValues;
 
-            res.send(JSON.stringify(data[2].id)); //needs to be in JSON bc axios will auto parse it on front end
+            res.send(JSON.stringify(data)); //needs to be in JSON bc axios will auto parse it on front end
     
             console.log(formData.hardwood);  
         })

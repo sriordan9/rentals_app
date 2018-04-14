@@ -6,7 +6,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HtmlMain from './components/htmlMain/HtmlMain';
 import AvailableForm from './components/htmlMain/AvailableForm/AvailableForm';
-import Axios from 'axios';
+import AvailableRooms from './components/htmlMain/AvailableRooms/AvailableRooms';
+import Axios from 'axios'; 
 
 class App extends Component {
   state = {
@@ -45,7 +46,13 @@ class App extends Component {
       rooms: 0, hardwood: 'none', wheelchair: 'none',
       pets: 'none', fireplace: 'none'
     },
-    availableRooms: 'original value'
+    availableRooms: 
+    null 
+    // [
+    //   {id: 1, key: 10},
+    //   {id: 2, key: 11},
+    //   {id: 3, key: 12}
+    // ]
   }
 
   //function to handl error for no rooms chosen
@@ -76,6 +83,13 @@ class App extends Component {
   }
 
   render() {
+
+    let rooms = null;
+    if(this.state.availableRooms != null) {
+      rooms = <AvailableRooms rooms={this.state.availableRooms}/>;
+
+    }
+
     return (
       <BrowserRouter>
         <div className="App">
@@ -87,6 +101,7 @@ class App extends Component {
             <li>Available Apartments</li>
             <li>Apply Here!</li>
           </ul>
+          {rooms}
           <Footer/>
         </div>
       </BrowserRouter>
