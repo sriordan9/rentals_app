@@ -17,41 +17,41 @@ const connection = mysql.createConnection({
 
 connection.connect((error) => {
     if(error) {
-        console.log('Error');
+        console.log(`Error encountered: ${error}`);
     } else {
         console.log('Connected');
 
     }
 });
 
-// connection.query('CREATE TABLE test (name varchar(10), dob date);', () => console.log('table created'));
-// connection.query('SELECT * FROM parent;', (error, rows) => {
-//     if(error) {
-//         console.log('An error has occured');
-//     } 
-    // console.log(rows[0]); 
-    
-    // RETURNS an array of objects
-    // rows.forEach((row) => console.log(row.id))
-    // let array = [...rows];
-    // console.log(array);
-// });
-
 app.post('/', (req, res) => {
+
+    let formData = req.body.inputValues;
+
+    let bedrooms = formData.rooms,      // lower case in order to interact smoothly with db values
+        hardwood_floor = formData.hardwood.toLowerCase(),
+        wheelchair_access = formData.wheelchair.toLowerCase(),
+        pets_allowed = formData.pets.toLowerCase();
 
     //place query commands into variables so you can reuse the promise function with different commands
 
     let queryPromise = () => {
 
         let promise = new Promise((resolve, reject) => {
-            connection.query('SELECT * FROM unit;', (error, data) => {
+
+            connection.query(`SELECT unit.id, unit.floor_level, unit_number, unit.bathrooms
+                FROM unit
+                INNER JOIN parent ON unit.parent_id = parent.id 
+                    AND parent.wheelchair_access = '${wheelchair_access}'
+                    AND parent.pets_allowed = '${pets_allowed}'
+                    AND unit.bedrooms = '${bedrooms}'
+                INNER JOIN user ON unit.id != user.id;`, 
+                (error, data) => {
                 
-                if (error) {
-                    return reject(error);
-                }
-                console.log('before resolve');
-                // console.log(data);
-                resolve(data);
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(data);
             });
         });
         return promise;
@@ -59,16 +59,13 @@ app.post('/', (req, res) => {
 
     queryPromise()
         .then((data) => {
-            console.log(`.then data printing:`);
-            // console.log(data);
 
-            let formData = req.body.inputValues;
-
-            res.send(JSON.stringify(data)); //needs to be in JSON bc axios will auto parse it on front end
-    
-            console.log(formData.hardwood);  
+            res.send(JSON.stringify(data)); //needs to be in JSON bc axios will auto parse it on front end  
         })
-        .catch((error) => console.log("Sean's error message"));
+        .catch((error) => {
+            console.log(`Error encountered`);
+            console.log(error);
+        });
 });
 
 app.listen(3001, () => {

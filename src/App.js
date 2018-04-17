@@ -22,7 +22,7 @@ class App extends Component {
       [
         {id: '1i', type: 'radio', value: 1, name: 'rooms'},
         {id: '2i', type: 'radio', value: 2, name: 'rooms'},
-        {id: '3i', type: 'radio', value: 3, name: 'rooms'}
+        {id: '3i', type: 'radio', value: 4, name: 'rooms'}
       ],
       [
         {id: '4i', type: 'radio', value:'Yes', name: 'hardwood'},
@@ -45,13 +45,7 @@ class App extends Component {
       rooms: 0, hardwood: 'none', wheelchair: 'none',
       pets: 'none', fireplace: 'none'
     },
-    availableRooms: 
-    null 
-    // [
-    //   {id: 1, key: 10},
-    //   {id: 2, key: 11},
-    //   {id: 3, key: 12}
-    // ]
+    availableRooms: null 
   }
 
   //function to handl error for no rooms chosen
@@ -72,13 +66,10 @@ class App extends Component {
     })
       .then((response) => { 
         let data = response.data; //entire response is an object that includes header, status code, etc.
-        console.log(response)
+
         this.setState({
           availableRooms: data
         });
-        console.log(this.state.inputValues.hardwood);
-        console.log(`New availableRooms state:`);
-        console.log(this.state.availableRooms);
       });
   }
 
@@ -104,10 +95,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-// Game Plan:
-// 1) backtrack and finish each component, resposiveness, styling, 
-// and css organization
-// 2) figure out where to place components. (Main image in app or main component?)
-// 3)
