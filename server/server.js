@@ -50,7 +50,7 @@ app.post('/', (req, res) => {
                     return reject(error);
                 }
                 console.log('before resolve');
-                console.log(data[0].id);
+                // console.log(data);
                 resolve(data);
             });
         });
@@ -60,7 +60,7 @@ app.post('/', (req, res) => {
     queryPromise()
         .then((data) => {
             console.log(`.then data printing:`);
-            console.log(data);
+            // console.log(data);
 
             let formData = req.body.inputValues;
 

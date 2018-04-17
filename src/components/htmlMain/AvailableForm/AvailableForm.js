@@ -2,8 +2,16 @@ import React from 'react';
 
 import './AvailableForm.css';
 import Inputs from './Inputs'
+import AvailableRooms from '../AvailableRooms/AvailableRooms';
 
 const availableForm = (props) => {
+
+    let rooms = null;
+    if(props.rooms != null) {
+      rooms = <AvailableRooms rooms={props.rooms}/>;
+
+    }
+
     return(
         <div>
             <form>
@@ -33,6 +41,7 @@ const availableForm = (props) => {
                     <Inputs inputs={props.inputs[4]} value={props.inputs[4].value}
                         name={props.inputs[4].name} onChange={props.onChange}/>
                 </fieldset>
+                {rooms}
                 <input type="button" onClick={props.onClick} />               
             </form>
         </div>

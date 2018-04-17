@@ -4,17 +4,21 @@ import './AvailableRooms.css';
 
 const availableRooms = (props) => {
     return (
-        <div> 
+        <select className='Rooms_ul'> 
             {props.rooms.map((room, key) =>
-            
-                <ul key={room.id}>
-                    <li>{room.floor_level}</li>
-                    <li>{room.unit_number}</li>
-                    <li>{room.parent_id}</li>
-                </ul>
+                // <ul key={room.id}>
+                //     <li>{room.floor_level}</li>
+                //     <li>{room.unit_number}</li>
+                //     <li>{room.parent_id}</li>
+                // </ul>
+                <option key={room.id}>
+                    Floor level: {room.floor_level}, 
+                    Unit number: {room.unit_number},
+                    Random number: {Math.floor(Math.random() * 20)}
+                </option>
                 )
             }
-        </div>
+        </select>
     ); //id's from the tables are not unique...create a key column or key making function
 };
 

@@ -6,40 +6,39 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HtmlMain from './components/htmlMain/HtmlMain';
 import AvailableForm from './components/htmlMain/AvailableForm/AvailableForm';
-import AvailableRooms from './components/htmlMain/AvailableRooms/AvailableRooms';
 import Axios from 'axios'; 
 
 class App extends Component {
   state = {
     headerContent: [
-      {id: '1', linkName: 'Amenities/Features'},
-      {id: '2', linkName: 'Pricing'},
-      {id: '3', linkName: 'Residents'},
-      {id: '4', linkName: 'Contact Us'},
-      {id: '5', phone: '1-800-867-5309'},
-      {id: '6', email: 'jennyjenny@famousong.com'}
+      {id: '1h', linkName: 'Amenities/Features'},
+      {id: '2h', linkName: 'Pricing'},
+      {id: '3h', linkName: 'Residents'},
+      {id: '4h', linkName: 'Contact Us'},
+      {id: '5h', phone: '1-800-867-5309'},
+      {id: '6h', email: 'jennyjenny@famousong.com'}
     ],
     inputs: [
       [
-        {id: '7', type: 'radio', value: 1, name: 'rooms'},
-        {id: '8', type: 'radio', value: 2, name: 'rooms'},
-        {id: '9', type: 'radio', value: 3, name: 'rooms'}
+        {id: '1i', type: 'radio', value: 1, name: 'rooms'},
+        {id: '2i', type: 'radio', value: 2, name: 'rooms'},
+        {id: '3i', type: 'radio', value: 3, name: 'rooms'}
       ],
       [
-        {id: '10', type: 'radio', value:'Yes', name: 'hardwood'},
-        {id: '11', type: 'radio', value:'No', name: 'hardwood'},
+        {id: '4i', type: 'radio', value:'Yes', name: 'hardwood'},
+        {id: '5i', type: 'radio', value:'No', name: 'hardwood'},
       ],
       [
-        {id: '12', type: 'radio', value:'Yes', name: 'wheelchair'},
-        {id: '13', type: 'radio', value:'No', name: 'wheelchair'},
+        {id: '6i', type: 'radio', value:'Yes', name: 'wheelchair'},
+        {id: '7i', type: 'radio', value:'No', name: 'wheelchair'},
       ],
       [
-        {id: '14', type: 'radio', value:'Yes', name: 'pets'},
-        {id: '15', type: 'radio', value:'No', name: 'pets'},
+        {id: '8i', type: 'radio', value:'Yes', name: 'pets'},
+        {id: '9i', type: 'radio', value:'No', name: 'pets'},
       ],
       [
-        {id: '16', type: 'radio', value:'Yes', name: 'fireplace'},
-        {id: '17', type: 'radio', value:'No', name: 'fireplace'},
+        {id: '10i', type: 'radio', value:'Yes', name: 'fireplace'},
+        {id: '11i', type: 'radio', value:'No', name: 'fireplace'},
       ],
     ],
     inputValues: {
@@ -77,31 +76,26 @@ class App extends Component {
         this.setState({
           availableRooms: data
         });
+        console.log(this.state.inputValues.hardwood);
         console.log(`New availableRooms state:`);
         console.log(this.state.availableRooms);
       });
   }
 
   render() {
-
-    let rooms = null;
-    if(this.state.availableRooms != null) {
-      rooms = <AvailableRooms rooms={this.state.availableRooms}/>;
-
-    }
-
     return (
       <BrowserRouter>
         <div className="App">
           <Header />
           <HtmlMain />
-          <AvailableForm inputs={this.state.inputs} onChange={this.handleInputChange}
+          <AvailableForm inputs={this.state.inputs} 
+            rooms={this.state.availableRooms}
+            onChange={this.handleInputChange}
             onClick={this.handleSubmit}/>
           <ul className="App_ul">
             <li>Available Apartments</li>
             <li>Apply Here!</li>
           </ul>
-          {rooms}
           <Footer/>
         </div>
       </BrowserRouter>
