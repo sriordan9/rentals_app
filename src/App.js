@@ -49,7 +49,7 @@ class App extends Component {
   }
 
   handleSubmit = (events) => {
-    Axios.post('http://localhost:3001/', {
+    Axios.post('http://localhost:3001/filters', {
       inputValues: this.state.inputValues
     })
       .then((response) => { 

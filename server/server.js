@@ -24,7 +24,7 @@ connection.connect((error) => {
     }
 });
 
-app.post('/', (req, res) => {
+app.post('/filters', (req, res) => {
 
     let formData = req.body.inputValues;
 
@@ -71,5 +71,3 @@ app.post('/', (req, res) => {
 app.listen(3001, () => {
     console.log('Node server listening on port 3001');
 });
-
-

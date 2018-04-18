@@ -37,7 +37,10 @@ const availableForm = (props) => {
                         name={props.inputs[3].name} onChange={props.onChange}/>
                 </fieldset>
                 {rooms}
-                <button type='button' onClick={props.onClick}>Submit Filters</button>
+                <div className='btnContainer'>
+                    <button type='button' onClick={props.onClick}>Submit Filters</button>
+                    <button type='button'>All Available</button>
+                </div>
             </form>
         </div>
     );

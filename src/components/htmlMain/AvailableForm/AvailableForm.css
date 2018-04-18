@@ -1,14 +1,12 @@
 .AvailableForm button {
-    display: block;
+    /* display: block; */
     margin: auto;
-    margin-top: -45px;
+    
 }
 .AvailableForm fieldset {
     background-color: rgba(11, 60, 93, .8);
     border: 1px solid black;
     color: whitesmoke;
-    margin-bottom: 0;
-    margin-top: 0;
 }
 .AvailableForm fieldset:last-of-type  {
     height: 125px;
@@ -32,6 +30,12 @@
 }
 .AvailableForm label {
     text-align: left;
+}
+.btnContainer {
+    display: flex;
+    margin-top: -30px;
+    /* justify-content: center; */
+
 }
 
 /* to make all things in form same width and to stay in form bounds the
