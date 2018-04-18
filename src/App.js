@@ -48,10 +48,27 @@ class App extends Component {
     });
   }
 
-  handleSubmit = (events) => {
-    Axios.post('http://localhost:3001/filters', {
+  //write .catch for submit function
+
+  handleSubmitFiltered = (events) => {
+    // this.setState({
+    //   availableRooms: null
+    // });
+
+    Axios.post('http://localhost:3001/filtered', {
       inputValues: this.state.inputValues
     })
+      .then((response) => { 
+        let data = response.data; //entire response is an object that includes header, status code, etc.
+
+        this.setState({
+          availableRooms: data
+        });
+      });
+  }
+
+  handleSubmitAll = (events) => {
+    Axios.get('http://localhost:3001/allAvailable')
       .then((response) => { 
         let data = response.data; //entire response is an object that includes header, status code, etc.
 
@@ -70,7 +87,8 @@ class App extends Component {
           <AvailableForm inputs={this.state.inputs} 
             rooms={this.state.availableRooms}
             onChange={this.handleInputChange}
-            onClick={this.handleSubmit}/>
+            clickSubmitFiltered={this.handleSubmitFiltered}
+            clickAllAvail={this.handleSubmitAll}/>
           {/* <ul className="App_ul">
             <li>Available Apartments</li>
             <li>Apply Here!</li>

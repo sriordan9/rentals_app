@@ -24,40 +24,75 @@ connection.connect((error) => {
     }
 });
 
-app.post('/filters', (req, res) => {
+let formData, bedrooms, hardwood_floor, wheelchair_access, pets_allowed;
 
-    let formData = req.body.inputValues;
+let filteredPromise = () => {   // user filtered apartments results
 
-    let bedrooms = formData.rooms,      // lower case in order to interact smoothly with db values
-        hardwood_floor = formData.hardwood.toLowerCase(),
-        wheelchair_access = formData.wheelchair.toLowerCase(),
-        pets_allowed = formData.pets.toLowerCase();
+    let promise = new Promise((resolve, reject) => {
+
+        connection.query(`SELECT unit.id, unit.floor_level, unit_number, unit.bathrooms
+            FROM unit
+            INNER JOIN parent ON unit.parent_id = parent.id 
+                AND parent.wheelchair_access = '${wheelchair_access}'
+                AND parent.pets_allowed = '${pets_allowed}'
+                AND unit.bedrooms = '${bedrooms}'
+            INNER JOIN user ON unit.id != user.id;`, 
+            (error, data) => {
+            
+                if (error) {
+                    return reject(error);
+                }
+                resolve(data);
+        });
+    });
+    return promise;
+}
+
+let allAvailablePromise = () => {   // user chose not to filter apartments
+
+    let promise = new Promise((resolve, reject) => {
+
+        connection.query(`SELECT unit.id, unit.unit_number, 
+            parent.wheelchair_access, parent.pets_allowed
+            FROM unit 
+            LEFT JOIN parent ON unit.parent_id = parent.id 
+            INNER JOIN user ON unit.id != user.id;`, 
+            (error, data) => {
+            
+                if (error) {
+                    return reject(error);
+                }
+                resolve(data);
+        });
+    });
+    return promise;
+}
+
+app.post('/filtered', (req, res) => {
+
+    formData = req.body.inputValues;
+
+    bedrooms = formData.rooms,      // lower case in order to interact smoothly with db values
+    hardwood_floor = formData.hardwood.toLowerCase(),
+    wheelchair_access = formData.wheelchair.toLowerCase(),
+    pets_allowed = formData.pets.toLowerCase();
 
     //place query commands into variables so you can reuse the promise function with different commands
 
-    let queryPromise = () => {
+    filteredPromise()
+        .then((data) => {
 
-        let promise = new Promise((resolve, reject) => {
-
-            connection.query(`SELECT unit.id, unit.floor_level, unit_number, unit.bathrooms
-                FROM unit
-                INNER JOIN parent ON unit.parent_id = parent.id 
-                    AND parent.wheelchair_access = '${wheelchair_access}'
-                    AND parent.pets_allowed = '${pets_allowed}'
-                    AND unit.bedrooms = '${bedrooms}'
-                INNER JOIN user ON unit.id != user.id;`, 
-                (error, data) => {
-                
-                    if (error) {
-                        return reject(error);
-                    }
-                    resolve(data);
-            });
+            res.send(JSON.stringify(data)); //needs to be in JSON bc axios will auto parse it on front end  
+        })
+        .catch((error) => {
+            console.log(`Error encountered`);
+            console.log(error);
         });
-        return promise;
-    }
+});
 
-    queryPromise()
+app.get('/allAvailable', (req, res) => {
+
+    allAvailablePromise()
         .then((data) => {
 
             res.send(JSON.stringify(data)); //needs to be in JSON bc axios will auto parse it on front end  
@@ -71,3 +106,26 @@ app.post('/filters', (req, res) => {
 app.listen(3001, () => {
     console.log('Node server listening on port 3001');
 });
+
+
+// let queryPromise = () => {
+
+    //     let promise = new Promise((resolve, reject) => {
+
+    //         connection.query(`SELECT unit.id, unit.floor_level, unit_number, unit.bathrooms
+    //             FROM unit
+    //             INNER JOIN parent ON unit.parent_id = parent.id 
+    //                 AND parent.wheelchair_access = '${wheelchair_access}'
+    //                 AND parent.pets_allowed = '${pets_allowed}'
+    //                 AND unit.bedrooms = '${bedrooms}'
+    //             INNER JOIN user ON unit.id != user.id;`, 
+    //             (error, data) => {
+                
+    //                 if (error) {
+    //                     return reject(error);
+    //                 }
+    //                 resolve(data);
+    //         });
+    //     });
+    //     return promise;
+    // }
