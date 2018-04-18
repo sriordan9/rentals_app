@@ -52,6 +52,7 @@ DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test` (
   `col_one` varchar(20) DEFAULT NULL,
   `col two` varchar(10) DEFAULT NULL,
+  `col_three` varchar(10) NOT NULL,
   `pets_allowed` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -62,7 +63,7 @@ CREATE TABLE `test` (
 
 LOCK TABLES `test` WRITE;
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
-INSERT INTO `test` VALUES ('valueOne','valueTwo','new_val'),('','','no');
+INSERT INTO `test` VALUES ('new_val','valueTwo','','new_val'),('','','','no'),('hello',NULL,'','there'),('world',NULL,'','turd'),('string',NULL,'','another'),(NULL,'testing','',''),(NULL,'column','',''),(NULL,'two','',''),(NULL,NULL,'testing','1'),(NULL,NULL,'column',''),(NULL,NULL,'two','');
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,7 +92,7 @@ CREATE TABLE `unit` (
 
 LOCK TABLES `unit` WRITE;
 /*!40000 ALTER TABLE `unit` DISABLE KEYS */;
-INSERT INTO `unit` VALUES (1,1,1,'first',101,'yes','1'),(2,1,1,'first',102,'yes','1'),(3,1,1,'first',103,'no','1'),(4,1,1,'first',104,'no','1'),(5,2,2,'first',105,'yes','1'),(6,2,2,'first',106,'no','1'),(7,4,4,'second',201,'yes','1'),(8,4,4,'second',202,'no','1'),(9,1,1,'first',101,'yes','2'),(10,1,1,'first',102,'yes','2'),(11,1,1,'first',103,'no','2'),(12,1,1,'first',104,'no','2'),(13,2,2,'first',105,'yes','2'),(14,2,2,'first',106,'no','2'),(15,4,4,'second',201,'yes','2'),(16,4,4,'second',202,'no','2'),(17,1,1,'first',101,'yes','3'),(18,1,1,'first',102,'yes','3'),(19,1,1,'first',103,'no','3'),(20,1,1,'first',104,'no','3'),(21,2,2,'first',105,'yes','3'),(22,2,2,'first',106,'no','3'),(23,4,4,'second',201,'yes','3'),(24,4,4,'second',202,'no','3'),(25,1,1,'first',101,'yes','4'),(26,1,1,'first',102,'yes','4'),(27,1,1,'first',103,'no','4'),(28,1,1,'first',104,'no','4'),(29,2,2,'first',105,'yes','4'),(30,2,2,'first',106,'no','4'),(31,4,4,'second',201,'yes','4'),(32,4,4,'second',202,'no','4');
+INSERT INTO `unit` VALUES (1,1,1,'1st',1101,'yes','1'),(2,1,1,'1st',1102,'yes','1'),(3,1,1,'1st',1103,'no','1'),(4,1,1,'1st',1104,'no','1'),(5,2,2,'1st',1105,'yes','1'),(6,2,2,'1st',1106,'no','1'),(7,4,4,'2nd',1201,'yes','1'),(8,4,4,'2nd',1202,'no','1'),(9,1,1,'1st',2101,'yes','2'),(10,1,1,'1st',2102,'yes','2'),(11,1,1,'1st',2103,'no','2'),(12,1,1,'1st',2104,'no','2'),(13,2,2,'1st',2105,'yes','2'),(14,2,2,'1st',2106,'no','2'),(15,4,4,'2nd',2201,'yes','2'),(16,4,4,'2nd',2202,'no','2'),(17,1,1,'1st',3101,'yes','3'),(18,1,1,'1st',3102,'yes','3'),(19,1,1,'1st',3103,'no','3'),(20,1,1,'1st',3104,'no','3'),(21,2,2,'1st',3105,'yes','3'),(22,2,2,'1st',3106,'no','3'),(23,4,4,'2nd',3201,'yes','3'),(24,4,4,'2nd',3202,'no','3'),(25,1,1,'1st',4101,'yes','4'),(26,1,1,'1st',4102,'yes','4'),(27,1,1,'1st',4103,'no','4'),(28,1,1,'1st',4104,'no','4'),(29,2,2,'1st',4105,'yes','4'),(30,2,2,'1st',4106,'no','4'),(31,4,4,'2nd',4201,'yes','4'),(32,4,4,'2nd',4202,'no','4');
 /*!40000 ALTER TABLE `unit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,4 +131,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-16 21:13:01
+-- Dump completed on 2018-04-17 15:23:54

@@ -10,14 +10,6 @@ import Axios from 'axios';
 
 class App extends Component {
   state = {
-    headerContent: [
-      {id: '1h', linkName: 'Amenities/Features'},
-      {id: '2h', linkName: 'Pricing'},
-      {id: '3h', linkName: 'Residents'},
-      {id: '4h', linkName: 'Contact Us'},
-      {id: '5h', phone: '1-800-867-5309'},
-      {id: '6h', email: 'jennyjenny@famousong.com'}
-    ],
     inputs: [
       [
         {id: '1i', type: 'radio', value: 1, name: 'rooms'},
@@ -35,11 +27,7 @@ class App extends Component {
       [
         {id: '8i', type: 'radio', value:'Yes', name: 'pets'},
         {id: '9i', type: 'radio', value:'No', name: 'pets'},
-      ],
-      [
-        {id: '10i', type: 'radio', value:'Yes', name: 'fireplace'},
-        {id: '11i', type: 'radio', value:'No', name: 'fireplace'},
-      ],
+      ]
     ],
     inputValues: {
       rooms: 0, hardwood: 'none', wheelchair: 'none',
@@ -83,11 +71,11 @@ class App extends Component {
             rooms={this.state.availableRooms}
             onChange={this.handleInputChange}
             onClick={this.handleSubmit}/>
-          <ul className="App_ul">
+          {/* <ul className="App_ul">
             <li>Available Apartments</li>
             <li>Apply Here!</li>
-          </ul>
-          <Footer/>
+          </ul> */}
+          {/* <Footer/> */}
         </div>
       </BrowserRouter>
     );

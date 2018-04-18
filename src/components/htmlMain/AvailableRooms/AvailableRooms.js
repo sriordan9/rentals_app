@@ -4,7 +4,7 @@ import './AvailableRooms.css';
 
 const availableRooms = (props) => {
     return (
-        <select className='Rooms_ul'> 
+        <select className='AvailableRooms'> 
             {props.rooms.map((room, key) =>
                 
                 <option key={room.id}>

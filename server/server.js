@@ -19,7 +19,7 @@ connection.connect((error) => {
     if(error) {
         console.log(`Error encountered: ${error}`);
     } else {
-        console.log('Connected');
+        console.log('Connected to database');
 
     }
 });

@@ -13,7 +13,7 @@ const availableForm = (props) => {
     }
 
     return(
-        <div>
+        <div className='AvailableForm'>
             <form>
                 <fieldset>
                     <label>Number of rooms:</label>
@@ -36,13 +36,8 @@ const availableForm = (props) => {
                     <Inputs inputs={props.inputs[3]} value={props.inputs[3].value}
                         name={props.inputs[3].name} onChange={props.onChange}/>
                 </fieldset>
-                <fieldset>
-                    <label>Fireplace:</label>
-                    <Inputs inputs={props.inputs[4]} value={props.inputs[4].value}
-                        name={props.inputs[4].name} onChange={props.onChange}/>
-                </fieldset>
                 {rooms}
-                <input type="button" onClick={props.onClick} />               
+                <button type='button' onClick={props.onClick}>Submit Filters</button>
             </form>
         </div>
     );
