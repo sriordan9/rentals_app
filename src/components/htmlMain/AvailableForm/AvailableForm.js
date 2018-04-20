@@ -1,10 +1,10 @@
 import React from 'react';
 
-import './AvailableForm.css';
-import Inputs from './Inputs'
-import AvailableRooms from './AvailableRooms/AvailableRooms';
 import AllAvailable from './AllAvailable/AllAvailable';
+import FilteredAvailable from './FilteredAvailable/FilteredAvailable';
+import Inputs from './Inputs/Inputs'
 import NoRooms from './NoRooms/NoRooms';
+import './AvailableForm.css';
 
 const availableForm = (props) => {
 
@@ -15,7 +15,7 @@ const availableForm = (props) => {
             rooms = <NoRooms rooms={props.rooms} />;         // empty & the string "no matches found" was sent instead
 
         } else if(props.rooms[0].bathrooms) {  // If data includes bathrooms then user chose the filtered search
-            rooms = <AvailableRooms rooms={props.rooms}/>;
+            rooms = <FilteredAvailable rooms={props.rooms}/>;
 
         } else {    // If data doesn't include bathrooms, user did not filter apt results
             rooms = <AllAvailable rooms={props.rooms}/>;

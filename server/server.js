@@ -75,6 +75,8 @@ let allAvailablePromise = () => {   // user chose not to filter apartments
 app.post('/filtered', (req, res) => {
     formData = req.body.inputValues;
 
+    console.log(formData);
+
     bedrooms = formData.rooms,      // lower case in order to interact smoothly with db values
     hardwood_floor = formData.hardwood.toLowerCase(),
     wheelchair_access = formData.wheelchair.toLowerCase(),

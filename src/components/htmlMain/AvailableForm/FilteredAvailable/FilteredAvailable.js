@@ -1,10 +1,10 @@
 import React from 'react';
 
-import './AvailableRooms.css';
+import './FilteredAvailable.css';
 
 const availableRooms = (props) => {
     return (
-        <select className='AvailableRooms'> 
+        <select className='FilteredAvailable'> 
             {props.rooms.map((room, key) =>
                 
                 <option key={room.id}>
