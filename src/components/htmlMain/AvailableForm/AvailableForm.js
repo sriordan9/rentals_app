@@ -4,16 +4,21 @@ import './AvailableForm.css';
 import Inputs from './Inputs'
 import AvailableRooms from './AvailableRooms/AvailableRooms';
 import AllAvailable from './AllAvailable/AllAvailable';
+import NoRooms from './NoRooms/NoRooms';
 
 const availableForm = (props) => {
 
     let rooms = null;
     if(props.rooms != null) {       // If state has been updated with db values then proceed
 
-        if(props.rooms[0].bathrooms) {  // If bathrooms are shown then user chose the filtered search
+        if(typeof(props.rooms[0].unit_number) === 'string') { // If the unit number is a string, then array was originally 
+            rooms = <NoRooms rooms={props.rooms} />;         // empty & the string "no matches found" was sent instead
+
+        } else if(props.rooms[0].bathrooms) {  // If data includes bathrooms then user chose the filtered search
             rooms = <AvailableRooms rooms={props.rooms}/>;
-        } else {    // If bathrooms are not part of info pulled from db, user did not filter apt results
-            rooms = <AllAvailable rooms={props.rooms}/>
+
+        } else {    // If data doesn't include bathrooms, user did not filter apt results
+            rooms = <AllAvailable rooms={props.rooms}/>;
         }
     }
     

@@ -1,12 +1,13 @@
+import Axios from 'axios'; 
 import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import './App.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import HtmlMain from './components/htmlMain/HtmlMain';
 import AvailableForm from './components/htmlMain/AvailableForm/AvailableForm';
-import Axios from 'axios'; 
+import LoginPopup from './components/htmlMain/LoginPopup/LoginPopup';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import HtmlMain from './components/htmlMain/HtmlMain';
+import './App.css';
 
 class App extends Component {
   state = {
@@ -31,7 +32,7 @@ class App extends Component {
     ],
     inputValues: {
       rooms: 0, hardwood: 'none', wheelchair: 'none',
-      pets: 'none', fireplace: 'none'
+      pets: 'none'
     },
     availableRooms: null 
   }
@@ -60,7 +61,6 @@ class App extends Component {
     })
       .then((response) => { 
         let data = response.data; //entire response is an object that includes header, status code, etc.
-
         this.setState({
           availableRooms: data
         });
@@ -78,6 +78,10 @@ class App extends Component {
       });
   }
 
+  // handleLoginPopup = () => {
+
+  // }
+
   render() {
     return (
       <BrowserRouter>
@@ -89,6 +93,7 @@ class App extends Component {
             onChange={this.handleInputChange}
             clickSubmitFiltered={this.handleSubmitFiltered}
             clickAllAvail={this.handleSubmitAll}/>
+          <LoginPopup />
           {/* <ul className="App_ul">
             <li>Available Apartments</li>
             <li>Apply Here!</li>
