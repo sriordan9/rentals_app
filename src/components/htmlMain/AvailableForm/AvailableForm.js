@@ -1,11 +1,29 @@
 import React from 'react';
 
+import AllAvailable from './AllAvailable/AllAvailable';
+import FilteredAvailable from './FilteredAvailable/FilteredAvailable';
+import Inputs from './Inputs/Inputs'
+import NoRooms from './NoRooms/NoRooms';
 import './AvailableForm.css';
-import Inputs from './Inputs'
 
 const availableForm = (props) => {
+
+    let rooms = null;
+    if(props.rooms != null) {       // If state has been updated with db values then proceed
+
+        if(typeof(props.rooms[0].unit_number) === 'string') { // If the unit number is a string, then array was originally 
+            rooms = <NoRooms rooms={props.rooms} />;         // empty & the string "no matches found" was sent instead
+
+        } else if(props.rooms[0].bathrooms) {  // If data includes bathrooms then user chose the filtered search
+            rooms = <FilteredAvailable rooms={props.rooms}/>;
+
+        } else {    // If data doesn't include bathrooms, user did not filter apt results
+            rooms = <AllAvailable rooms={props.rooms}/>;
+        }
+    }
+    
     return(
-        <div>
+        <div className='AvailableForm'>
             <form>
                 <fieldset>
                     <label>Number of rooms:</label>
@@ -28,12 +46,11 @@ const availableForm = (props) => {
                     <Inputs inputs={props.inputs[3]} value={props.inputs[3].value}
                         name={props.inputs[3].name} onChange={props.onChange}/>
                 </fieldset>
-                <fieldset>
-                    <label>Fireplace:</label>
-                    <Inputs inputs={props.inputs[4]} value={props.inputs[4].value}
-                        name={props.inputs[4].name} onChange={props.onChange}/>
-                </fieldset>
-                <input type="button" onClick={props.onClick} />               
+                {rooms}
+                <div className='btnContainer'>
+                    <button type='button' onClick={props.clickSubmitFiltered}>Submit Filters</button>
+                    <button type='button' onClick={props.clickAllAvail}>All Available</button>
+                </div>
             </form>
         </div>
     );

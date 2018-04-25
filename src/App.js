@@ -1,58 +1,40 @@
+import Axios from 'axios'; 
 import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import './App.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import HtmlMain from './components/htmlMain/HtmlMain';
 import AvailableForm from './components/htmlMain/AvailableForm/AvailableForm';
-import AvailableRooms from './components/htmlMain/AvailableRooms/AvailableRooms';
-import Axios from 'axios'; 
+import LoginPopup from './components/htmlMain/LoginPopup/LoginPopup';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import HtmlMain from './components/htmlMain/HtmlMain';
+import './App.css';
 
 class App extends Component {
   state = {
-    headerContent: [
-      {id: '1', linkName: 'Amenities/Features'},
-      {id: '2', linkName: 'Pricing'},
-      {id: '3', linkName: 'Residents'},
-      {id: '4', linkName: 'Contact Us'},
-      {id: '5', phone: '1-800-867-5309'},
-      {id: '6', email: 'jennyjenny@famousong.com'}
-    ],
     inputs: [
       [
-        {id: '7', type: 'radio', value: 1, name: 'rooms'},
-        {id: '8', type: 'radio', value: 2, name: 'rooms'},
-        {id: '9', type: 'radio', value: 3, name: 'rooms'}
+        {id: '1i', type: 'radio', value: 1, name: 'rooms'},
+        {id: '2i', type: 'radio', value: 2, name: 'rooms'},
+        {id: '3i', type: 'radio', value: 4, name: 'rooms'}
       ],
       [
-        {id: '10', type: 'radio', value:'Yes', name: 'hardwood'},
-        {id: '11', type: 'radio', value:'No', name: 'hardwood'},
+        {id: '4i', type: 'radio', value:'Yes', name: 'hardwood'},
+        {id: '5i', type: 'radio', value:'No', name: 'hardwood'},
       ],
       [
-        {id: '12', type: 'radio', value:'Yes', name: 'wheelchair'},
-        {id: '13', type: 'radio', value:'No', name: 'wheelchair'},
+        {id: '6i', type: 'radio', value:'Yes', name: 'wheelchair'},
+        {id: '7i', type: 'radio', value:'No', name: 'wheelchair'},
       ],
       [
-        {id: '14', type: 'radio', value:'Yes', name: 'pets'},
-        {id: '15', type: 'radio', value:'No', name: 'pets'},
-      ],
-      [
-        {id: '16', type: 'radio', value:'Yes', name: 'fireplace'},
-        {id: '17', type: 'radio', value:'No', name: 'fireplace'},
-      ],
+        {id: '8i', type: 'radio', value:'Yes', name: 'pets'},
+        {id: '9i', type: 'radio', value:'No', name: 'pets'},
+      ]
     ],
     inputValues: {
-      rooms: 0, hardwood: 'none', wheelchair: 'none',
-      pets: 'none', fireplace: 'none'
+      rooms: '', hardwood: '', 
+      wheelchair: '', pets: ''
     },
-    availableRooms: 
-    null 
-    // [
-    //   {id: 1, key: 10},
-    //   {id: 2, key: 11},
-    //   {id: 3, key: 12}
-    // ]
+    availableRooms: null 
   }
 
   //function to handl error for no rooms chosen
@@ -67,42 +49,56 @@ class App extends Component {
     });
   }
 
-  handleSubmit = (events) => {
-    Axios.post('http://localhost:3001/', {
+  //write .catch for submit function
+
+  handleSubmitFiltered = (events) => {
+    // this.setState({
+    //   availableRooms: null
+    // });
+
+    Axios.post('http://localhost:3001/filtered', {
       inputValues: this.state.inputValues
     })
       .then((response) => { 
         let data = response.data; //entire response is an object that includes header, status code, etc.
-        console.log(response)
         this.setState({
           availableRooms: data
         });
-        console.log(`New availableRooms state:`);
-        console.log(this.state.availableRooms);
       });
   }
 
+  handleSubmitAll = (events) => {
+    Axios.get('http://localhost:3001/allAvailable')
+      .then((response) => { 
+        let data = response.data; //entire response is an object that includes header, status code, etc.
+
+        this.setState({
+          availableRooms: data
+        });
+      });
+  }
+
+  // handleLoginPopup = () => {
+
+  // }
+
   render() {
-
-    let rooms = null;
-    if(this.state.availableRooms != null) {
-      rooms = <AvailableRooms rooms={this.state.availableRooms}/>;
-
-    }
-
     return (
       <BrowserRouter>
         <div className="App">
           <Header />
           <HtmlMain />
-          <AvailableForm inputs={this.state.inputs} onChange={this.handleInputChange}
-            onClick={this.handleSubmit}/>
-          <ul className="App_ul">
+          <AvailableForm inputs={this.state.inputs} 
+            rooms={this.state.availableRooms}
+            onChange={this.handleInputChange}
+            clickSubmitFiltered={this.handleSubmitFiltered}
+            clickAllAvail={this.handleSubmitAll}/>
+          <LoginPopup />
+          {/* <ul className="App_ul">
             <li>Available Apartments</li>
             <li>Apply Here!</li>
-          </ul>
-          {rooms}
-          <Footer/>
+          </ul> */}
+          {/* <Footer/> */}
         </div>
       </BrowserRouter>
     );
@@ -110,10 +106,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-// Game Plan:
-// 1) backtrack and finish each component, resposiveness, styling, 
-// and css organization
-// 2) figure out where to place components. (Main image in app or main component?)
-// 3)

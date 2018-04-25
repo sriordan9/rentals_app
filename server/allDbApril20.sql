@@ -1,13 +1,13 @@
--- MySQL dump 10.16  Distrib 10.1.23-MariaDB, for debian-linux-gnueabihf (armv7l)
+-- MySQL dump 10.16  Distrib 10.2.14-MariaDB, for osx10.12 (x86_64)
 --
 -- Host: localhost    Database: 
 -- ------------------------------------------------------
--- Server version	10.1.23-MariaDB-9+deb9u1
+-- Server version	10.2.14-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -19,7 +19,7 @@
 -- Current Database: `mysql`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mysql` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mysql` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `mysql`;
 
@@ -68,7 +68,7 @@ CREATE TABLE `columns_priv` (
   `User` char(80) COLLATE utf8_bin NOT NULL DEFAULT '',
   `Table_name` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `Column_name` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `Timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Column_priv` set('Select','Insert','Update','References') CHARACTER SET utf8 NOT NULL DEFAULT '',
   PRIMARY KEY (`Host`,`Db`,`User`,`Table_name`,`Column_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Column privileges';
@@ -142,7 +142,7 @@ CREATE TABLE `event` (
   `execute_at` datetime DEFAULT NULL,
   `interval_value` int(11) DEFAULT NULL,
   `interval_field` enum('YEAR','QUARTER','MONTH','DAY','HOUR','MINUTE','WEEK','SECOND','MICROSECOND','YEAR_MONTH','DAY_HOUR','DAY_MINUTE','DAY_SECOND','HOUR_MINUTE','HOUR_SECOND','MINUTE_SECOND','DAY_MICROSECOND','HOUR_MICROSECOND','MINUTE_MICROSECOND','SECOND_MICROSECOND') DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_executed` datetime DEFAULT NULL,
   `starts` datetime DEFAULT NULL,
@@ -156,7 +156,7 @@ CREATE TABLE `event` (
   `character_set_client` char(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `collation_connection` char(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `db_collation` char(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `body_utf8` longblob,
+  `body_utf8` longblob DEFAULT NULL,
   PRIMARY KEY (`db`,`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Events';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -170,7 +170,7 @@ DROP TABLE IF EXISTS `func`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `func` (
   `name` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `ret` tinyint(1) NOT NULL DEFAULT '0',
+  `ret` tinyint(1) NOT NULL DEFAULT 0,
   `dl` char(128) COLLATE utf8_bin NOT NULL DEFAULT '',
   `type` enum('function','aggregate') CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`name`)
@@ -394,7 +394,7 @@ CREATE TABLE `innodb_index_stats` (
   `database_name` varchar(64) COLLATE utf8_bin NOT NULL,
   `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
   `index_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `stat_name` varchar(64) COLLATE utf8_bin NOT NULL,
   `stat_value` bigint(20) unsigned NOT NULL,
   `sample_size` bigint(20) unsigned DEFAULT NULL,
@@ -409,7 +409,7 @@ CREATE TABLE `innodb_index_stats` (
 
 LOCK TABLES `innodb_index_stats` WRITE;
 /*!40000 ALTER TABLE `innodb_index_stats` DISABLE KEYS */;
-INSERT INTO `innodb_index_stats` VALUES ('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_diff_pfx01',0,1,'domain_id'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_diff_pfx02',0,1,'domain_id,sub_id'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','size',1,NULL,'Number of pages in the index'),('rentals','parent','PRIMARY','2018-02-21 19:14:56','n_diff_pfx01',3,1,'id'),('rentals','parent','PRIMARY','2018-02-21 19:14:56','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','parent','PRIMARY','2018-02-21 19:14:56','size',1,NULL,'Number of pages in the index'),('rentals','test','PRIMARY','2018-03-29 16:09:09','n_diff_pfx01',0,1,'test_column'),('rentals','test','PRIMARY','2018-03-29 16:09:09','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','test','PRIMARY','2018-03-29 16:09:09','size',1,NULL,'Number of pages in the index'),('rentals','unit','PRIMARY','2018-02-22 00:56:21','n_diff_pfx01',29,1,'id'),('rentals','unit','PRIMARY','2018-02-22 00:56:21','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','unit','PRIMARY','2018-02-22 00:56:21','size',1,NULL,'Number of pages in the index'),('rentals','user','PRIMARY','2018-02-22 02:53:15','n_diff_pfx01',4,1,'id'),('rentals','user','PRIMARY','2018-02-22 02:53:15','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','user','PRIMARY','2018-02-22 02:53:15','size',1,NULL,'Number of pages in the index');
+INSERT INTO `innodb_index_stats` VALUES ('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_diff_pfx01',0,1,'domain_id'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_diff_pfx02',0,1,'domain_id,sub_id'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','size',1,NULL,'Number of pages in the index'),('rentals','parent','PRIMARY','2018-04-16 22:17:12','n_diff_pfx01',4,1,'id'),('rentals','parent','PRIMARY','2018-04-16 22:17:12','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','parent','PRIMARY','2018-04-16 22:17:12','size',1,NULL,'Number of pages in the index'),('rentals','test','GEN_CLUST_INDEX','2018-04-17 18:26:32','n_diff_pfx01',11,1,'DB_ROW_ID'),('rentals','test','GEN_CLUST_INDEX','2018-04-17 18:26:32','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','test','GEN_CLUST_INDEX','2018-04-17 18:26:32','size',1,NULL,'Number of pages in the index'),('rentals','unit','PRIMARY','2018-04-16 23:05:10','n_diff_pfx01',32,1,'id'),('rentals','unit','PRIMARY','2018-04-16 23:05:10','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','unit','PRIMARY','2018-04-16 23:05:10','size',1,NULL,'Number of pages in the index'),('rentals','user','GEN_CLUST_INDEX','2018-04-19 17:17:57','n_diff_pfx01',1,1,'DB_ROW_ID'),('rentals','user','GEN_CLUST_INDEX','2018-04-19 17:17:57','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','user','GEN_CLUST_INDEX','2018-04-19 17:17:57','size',1,NULL,'Number of pages in the index');
 /*!40000 ALTER TABLE `innodb_index_stats` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -423,7 +423,7 @@ DROP TABLE IF EXISTS `innodb_table_stats`;
 CREATE TABLE `innodb_table_stats` (
   `database_name` varchar(64) COLLATE utf8_bin NOT NULL,
   `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `n_rows` bigint(20) unsigned NOT NULL,
   `clustered_index_size` bigint(20) unsigned NOT NULL,
   `sum_of_other_index_sizes` bigint(20) unsigned NOT NULL,
@@ -437,7 +437,7 @@ CREATE TABLE `innodb_table_stats` (
 
 LOCK TABLES `innodb_table_stats` WRITE;
 /*!40000 ALTER TABLE `innodb_table_stats` DISABLE KEYS */;
-INSERT INTO `innodb_table_stats` VALUES ('mysql','gtid_slave_pos','2018-02-14 18:21:42',0,1,0),('rentals','parent','2018-02-21 19:14:56',3,1,0),('rentals','test','2018-03-29 16:09:09',0,1,0),('rentals','unit','2018-02-22 00:56:21',29,1,0),('rentals','user','2018-02-22 02:53:15',4,1,0);
+INSERT INTO `innodb_table_stats` VALUES ('mysql','gtid_slave_pos','2018-02-14 18:21:42',0,1,0),('rentals','parent','2018-04-16 22:17:12',4,1,0),('rentals','test','2018-04-17 18:26:32',11,1,0),('rentals','unit','2018-04-16 23:05:10',32,1,0),('rentals','user','2018-04-19 17:17:57',1,1,0);
 /*!40000 ALTER TABLE `innodb_table_stats` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -484,14 +484,14 @@ CREATE TABLE `proc` (
   `returns` longblob NOT NULL,
   `body` longblob NOT NULL,
   `definer` char(141) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `sql_mode` set('REAL_AS_FLOAT','PIPES_AS_CONCAT','ANSI_QUOTES','IGNORE_SPACE','IGNORE_BAD_TABLE_OPTIONS','ONLY_FULL_GROUP_BY','NO_UNSIGNED_SUBTRACTION','NO_DIR_IN_CREATE','POSTGRESQL','ORACLE','MSSQL','DB2','MAXDB','NO_KEY_OPTIONS','NO_TABLE_OPTIONS','NO_FIELD_OPTIONS','MYSQL323','MYSQL40','ANSI','NO_AUTO_VALUE_ON_ZERO','NO_BACKSLASH_ESCAPES','STRICT_TRANS_TABLES','STRICT_ALL_TABLES','NO_ZERO_IN_DATE','NO_ZERO_DATE','INVALID_DATES','ERROR_FOR_DIVISION_BY_ZERO','TRADITIONAL','NO_AUTO_CREATE_USER','HIGH_NOT_PRECEDENCE','NO_ENGINE_SUBSTITUTION','PAD_CHAR_TO_FULL_LENGTH') NOT NULL DEFAULT '',
   `comment` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `character_set_client` char(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `collation_connection` char(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `db_collation` char(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `body_utf8` longblob,
+  `body_utf8` longblob DEFAULT NULL,
   PRIMARY KEY (`db`,`name`,`type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Stored Procedures';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -521,7 +521,7 @@ CREATE TABLE `procs_priv` (
   `Routine_type` enum('FUNCTION','PROCEDURE') COLLATE utf8_bin NOT NULL,
   `Grantor` char(141) COLLATE utf8_bin NOT NULL DEFAULT '',
   `Proc_priv` set('Execute','Alter Routine','Grant') CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `Timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`Host`,`Db`,`User`,`Routine_name`,`Routine_type`),
   KEY `Grantor` (`Grantor`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Procedure privileges';
@@ -548,9 +548,9 @@ CREATE TABLE `proxies_priv` (
   `User` char(80) COLLATE utf8_bin NOT NULL DEFAULT '',
   `Proxied_host` char(60) COLLATE utf8_bin NOT NULL DEFAULT '',
   `Proxied_user` char(80) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `With_grant` tinyint(1) NOT NULL DEFAULT '0',
+  `With_grant` tinyint(1) NOT NULL DEFAULT 0,
   `Grantor` char(141) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `Timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`Host`,`User`,`Proxied_host`,`Proxied_user`),
   KEY `Grantor` (`Grantor`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User proxy privileges';
@@ -604,7 +604,7 @@ CREATE TABLE `servers` (
   `Db` char(64) NOT NULL DEFAULT '',
   `Username` char(80) NOT NULL DEFAULT '',
   `Password` char(64) NOT NULL DEFAULT '',
-  `Port` int(4) NOT NULL DEFAULT '0',
+  `Port` int(4) NOT NULL DEFAULT 0,
   `Socket` char(64) NOT NULL DEFAULT '',
   `Wrapper` char(64) NOT NULL DEFAULT '',
   `Owner` char(64) NOT NULL DEFAULT '',
@@ -658,7 +658,7 @@ CREATE TABLE `tables_priv` (
   `User` char(80) COLLATE utf8_bin NOT NULL DEFAULT '',
   `Table_name` char(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `Grantor` char(141) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `Timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Table_priv` set('Select','Insert','Update','Delete','Create','Drop','Grant','References','Index','Alter','Create View','Show view','Trigger') CHARACTER SET utf8 NOT NULL DEFAULT '',
   `Column_priv` set('Select','Insert','Update','References') CHARACTER SET utf8 NOT NULL DEFAULT '',
   PRIMARY KEY (`Host`,`Db`,`User`,`Table_name`),
@@ -778,8 +778,8 @@ DROP TABLE IF EXISTS `time_zone_transition_type`;
 CREATE TABLE `time_zone_transition_type` (
   `Time_zone_id` int(10) unsigned NOT NULL,
   `Transition_type_id` int(10) unsigned NOT NULL,
-  `Offset` int(11) NOT NULL DEFAULT '0',
-  `Is_DST` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `Offset` int(11) NOT NULL DEFAULT 0,
+  `Is_DST` tinyint(3) unsigned NOT NULL DEFAULT 0,
   `Abbreviation` char(8) NOT NULL DEFAULT '',
   PRIMARY KEY (`Time_zone_id`,`Transition_type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Time zone transition types';
@@ -838,16 +838,16 @@ CREATE TABLE `user` (
   `ssl_cipher` blob NOT NULL,
   `x509_issuer` blob NOT NULL,
   `x509_subject` blob NOT NULL,
-  `max_questions` int(11) unsigned NOT NULL DEFAULT '0',
-  `max_updates` int(11) unsigned NOT NULL DEFAULT '0',
-  `max_connections` int(11) unsigned NOT NULL DEFAULT '0',
-  `max_user_connections` int(11) NOT NULL DEFAULT '0',
+  `max_questions` int(11) unsigned NOT NULL DEFAULT 0,
+  `max_updates` int(11) unsigned NOT NULL DEFAULT 0,
+  `max_connections` int(11) unsigned NOT NULL DEFAULT 0,
+  `max_user_connections` int(11) NOT NULL DEFAULT 0,
   `plugin` char(64) CHARACTER SET latin1 NOT NULL DEFAULT '',
   `authentication_string` text COLLATE utf8_bin NOT NULL,
   `password_expired` enum('N','Y') CHARACTER SET utf8 NOT NULL DEFAULT 'N',
   `is_role` enum('N','Y') CHARACTER SET utf8 NOT NULL DEFAULT 'N',
   `default_role` char(80) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `max_statement_time` decimal(12,6) NOT NULL DEFAULT '0.000000',
+  `max_statement_time` decimal(12,6) NOT NULL DEFAULT 0.000000,
   PRIMARY KEY (`Host`,`User`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Users and global privileges';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -869,7 +869,7 @@ UNLOCK TABLES;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE IF NOT EXISTS `general_log` (
-  `event_time` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `event_time` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6),
   `user_host` mediumtext NOT NULL,
   `thread_id` bigint(21) unsigned NOT NULL,
   `server_id` int(10) unsigned NOT NULL,
@@ -885,7 +885,7 @@ CREATE TABLE IF NOT EXISTS `general_log` (
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE IF NOT EXISTS `slow_log` (
-  `start_time` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `start_time` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6),
   `user_host` mediumtext NOT NULL,
   `query_time` time(6) NOT NULL,
   `lock_time` time(6) NOT NULL,
@@ -918,9 +918,10 @@ DROP TABLE IF EXISTS `parent`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `parent` (
   `id` int(11) NOT NULL,
-  `total floors` int(11) DEFAULT NULL,
-  `total units` int(11) DEFAULT NULL,
-  `wheelchair access` varchar(10) DEFAULT NULL,
+  `total_floors` int(11) DEFAULT NULL,
+  `total_units` int(11) DEFAULT NULL,
+  `wheelchair_access` varchar(10) DEFAULT NULL,
+  `pets_allowed` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -931,7 +932,7 @@ CREATE TABLE `parent` (
 
 LOCK TABLES `parent` WRITE;
 /*!40000 ALTER TABLE `parent` DISABLE KEYS */;
-INSERT INTO `parent` VALUES (1,2,8,'yes'),(2,2,8,'yes'),(3,2,8,'no'),(4,2,8,'no');
+INSERT INTO `parent` VALUES (1,2,8,'yes','yes'),(2,2,8,'yes','no'),(3,2,8,'no','yes'),(4,2,8,'no','no');
 /*!40000 ALTER TABLE `parent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -943,8 +944,10 @@ DROP TABLE IF EXISTS `test`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `test` (
-  `test_column` int(5) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`test_column`)
+  `col_one` varchar(20) DEFAULT NULL,
+  `col two` varchar(10) DEFAULT NULL,
+  `col_three` varchar(10) NOT NULL,
+  `pets_allowed` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -954,6 +957,7 @@ CREATE TABLE `test` (
 
 LOCK TABLES `test` WRITE;
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
+INSERT INTO `test` VALUES ('new_val','valueTwo','','new_val'),('','','','no'),('hello',NULL,'','there'),('world',NULL,'','turd'),('string',NULL,'','another'),(NULL,'testing','',''),(NULL,'column','',''),(NULL,'two','',''),(NULL,NULL,'testing','1'),(NULL,NULL,'column',''),(NULL,NULL,'two','');
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -968,9 +972,10 @@ CREATE TABLE `unit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bedrooms` int(11) DEFAULT NULL,
   `bathrooms` int(11) DEFAULT NULL,
-  `floor level` varchar(8) DEFAULT NULL,
-  `unit number` int(11) DEFAULT NULL,
-  `parent id` varchar(2) NOT NULL,
+  `floor_level` varchar(8) DEFAULT NULL,
+  `unit_number` int(11) DEFAULT NULL,
+  `hardwood_floor` varchar(10) DEFAULT NULL,
+  `parent_id` varchar(2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -981,7 +986,7 @@ CREATE TABLE `unit` (
 
 LOCK TABLES `unit` WRITE;
 /*!40000 ALTER TABLE `unit` DISABLE KEYS */;
-INSERT INTO `unit` VALUES (1,1,1,'first',101,'1'),(2,1,1,'first',102,'1'),(3,1,1,'first',103,'1'),(4,1,1,'first',104,'1'),(5,2,2,'first',105,'1'),(6,2,2,'first',106,'1'),(7,4,4,'second',201,'1'),(8,4,4,'second',202,'1'),(9,1,1,'first',101,'2'),(10,1,1,'first',102,'2'),(11,1,1,'first',103,'2'),(12,1,1,'first',104,'2'),(13,2,2,'first',105,'2'),(14,2,2,'first',106,'2'),(15,4,4,'second',201,'2'),(16,4,4,'second',202,'2'),(17,1,1,'first',101,'3'),(18,1,1,'first',102,'3'),(19,1,1,'first',103,'3'),(20,1,1,'first',104,'3'),(21,2,2,'first',105,'3'),(22,2,2,'first',106,'3'),(23,4,4,'second',201,'3'),(24,4,4,'second',202,'3'),(25,1,1,'first',101,'4'),(26,1,1,'first',102,'4'),(27,1,1,'first',103,'4'),(28,1,1,'first',104,'4'),(29,2,2,'first',105,'4'),(30,2,2,'first',106,'4'),(31,4,4,'second',107,'4'),(32,4,4,'second',108,'4');
+INSERT INTO `unit` VALUES (1,1,1,'1st',1101,'yes','1'),(2,1,1,'1st',1102,'yes','1'),(3,1,1,'1st',1103,'no','1'),(4,1,1,'1st',1104,'no','1'),(5,2,2,'1st',1105,'yes','1'),(6,2,2,'1st',1106,'no','1'),(7,4,4,'2nd',1201,'yes','1'),(8,4,4,'2nd',1202,'no','1'),(9,1,1,'1st',2101,'yes','2'),(10,1,1,'1st',2102,'yes','2'),(11,1,1,'1st',2103,'no','2'),(12,1,1,'1st',2104,'no','2'),(13,2,2,'1st',2105,'yes','2'),(14,2,2,'1st',2106,'no','2'),(15,4,4,'2nd',2201,'yes','2'),(16,4,4,'2nd',2202,'no','2'),(17,1,1,'1st',3101,'yes','3'),(18,1,1,'1st',3102,'yes','3'),(19,1,1,'1st',3103,'no','3'),(20,1,1,'1st',3104,'no','3'),(21,2,2,'1st',3105,'yes','3'),(22,2,2,'1st',3106,'no','3'),(23,4,4,'2nd',3201,'yes','3'),(24,4,4,'2nd',3202,'no','3'),(25,1,1,'1st',4101,'yes','4'),(26,1,1,'1st',4102,'yes','4'),(27,1,1,'1st',4103,'no','4'),(28,1,1,'1st',4104,'no','4'),(29,2,2,'1st',4105,'yes','4'),(30,2,2,'1st',4106,'no','4'),(31,4,4,'2nd',4201,'yes','4'),(32,4,4,'2nd',4202,'no','4');
 /*!40000 ALTER TABLE `unit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -993,13 +998,11 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first name` varchar(15) DEFAULT NULL,
-  `last name` varchar(20) DEFAULT NULL,
-  `phone` int(11) DEFAULT NULL,
-  `email` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+  `id` int(10) NOT NULL,
+  `first_name` varchar(15) DEFAULT NULL,
+  `last_name` varchar(20) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1008,7 +1011,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Dean','Winchester',7873762,'supernatural@playa.com'),(2,'Sam','Winchester',8872529,'lilbigbro@natural.com'),(3,'John','Winchester',7872333,'daddychesta@natural.com'),(4,'Bobby','Singer',4346877,'exborracho@natural.com');
+INSERT INTO `user` VALUES (5,'Dean','Winchester','badass@.supernat.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1021,4 +1024,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-02  0:17:08
+-- Dump completed on 2018-04-20 17:07:46

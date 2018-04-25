@@ -17,62 +17,94 @@ const connection = mysql.createConnection({
 
 connection.connect((error) => {
     if(error) {
-        console.log('Error');
+        console.log(`Error encountered: ${error}`);
     } else {
-        console.log('Connected');
+        console.log('Connected to database');
 
     }
 });
 
-// connection.query('CREATE TABLE test (name varchar(10), dob date);', () => console.log('table created'));
-// connection.query('SELECT * FROM parent;', (error, rows) => {
-//     if(error) {
-//         console.log('An error has occured');
-//     } 
-    // console.log(rows[0]); 
-    
-    // RETURNS an array of objects
-    // rows.forEach((row) => console.log(row.id))
-    // let array = [...rows];
-    // console.log(array);
-// });
+let formData, bedrooms, hardwood_floor, wheelchair_access, pets_allowed;
 
-app.post('/', (req, res) => {
+let filteredPromise = () => {   // user filtered apartments results
 
-    //place query commands into variables so you can reuse the promise function with different commands
+    let promise = new Promise((resolve, reject) => {
 
-    let queryPromise = () => {
+        connection.query(`SELECT unit.id, unit.floor_level, unit_number, unit.bathrooms
+            FROM unit
+            INNER JOIN parent ON unit.parent_id = parent.id 
+                AND parent.wheelchair_access = '${wheelchair_access}'
+                AND parent.pets_allowed = '${pets_allowed}'
+                AND unit.bedrooms = '${bedrooms}'
+                AND unit.hardwood_floor = '${hardwood_floor}'
+            INNER JOIN user ON unit.id != user.id;`, 
+            (error, data) => {
 
-        let promise = new Promise((resolve, reject) => {
-            connection.query('SELECT * FROM unit;', (error, data) => {
-                
+                if (error) {
+                    return reject(error);
+
+                } else if(data[0] === undefined || data[0] ==='undefined') {
+                    data = [{id: 1, unit_number: 'No matching rooms left'}];
+                } 
+                resolve(data);
+        });
+    });
+    return promise;
+}
+
+let allAvailablePromise = () => {   // user chose not to filter apartments
+
+    let promise = new Promise((resolve, reject) => {
+
+        connection.query(`SELECT unit.id, unit.unit_number, 
+            parent.wheelchair_access, parent.pets_allowed
+            FROM unit 
+            LEFT JOIN parent ON unit.parent_id = parent.id 
+            INNER JOIN user ON unit.id != user.id;`, 
+            (error, data) => {
+            
                 if (error) {
                     return reject(error);
                 }
-                console.log('before resolve');
-                console.log(data[0].id);
                 resolve(data);
-            });
         });
-        return promise;
-    }
+    });
+    return promise;
+}
 
-    queryPromise()
+app.post('/filtered', (req, res) => {
+    formData = req.body.inputValues;
+
+    console.log(formData);
+
+    bedrooms = formData.rooms,      // lower case in order to interact smoothly with db values
+    hardwood_floor = formData.hardwood.toLowerCase(),
+    wheelchair_access = formData.wheelchair.toLowerCase(),
+    pets_allowed = formData.pets.toLowerCase();
+
+    filteredPromise()
         .then((data) => {
-            console.log(`.then data printing:`);
-            console.log(data);
-
-            let formData = req.body.inputValues;
-
-            res.send(JSON.stringify(data)); //needs to be in JSON bc axios will auto parse it on front end
-    
-            console.log(formData.hardwood);  
+            res.send(JSON.stringify(data)); //needs to be in JSON bc axios will auto parse it on front end  
         })
-        .catch((error) => console.log("Sean's error message"));
+        .catch((error) => {
+            console.log(`Error encountered`);
+            console.log(error);
+        });
+});
+
+app.get('/allAvailable', (req, res) => {
+
+    allAvailablePromise()
+        .then((data) => {
+
+            res.send(JSON.stringify(data)); //needs to be in JSON bc axios will auto parse it on front end  
+        })
+        .catch((error) => {
+            console.log(`Error encountered`);
+            console.log(error);
+        });
 });
 
 app.listen(3001, () => {
     console.log('Node server listening on port 3001');
 });
-
-
