@@ -1,0 +1,26 @@
+div.createAcct {
+    background: whitesmoke;
+    position: absolute;
+    border-radius: 5px;
+    padding: 15px 30px;
+}
+.createAcct form {
+    display: flex;
+    flex-direction: column;
+    max-width: 100px;
+    margin-top: 5px;
+
+}
+.createAcct input {
+    margin-bottom: 15px;
+    /* border: none;
+    border-bottom: 1px solid grey;
+    background-color: whitesmoke; */
+}
+.createAcct label {
+    font-size: .9rem;
+    margin-bottom: 10px;
+}
+.createAcct button {
+    margin-top: 5px;
+}

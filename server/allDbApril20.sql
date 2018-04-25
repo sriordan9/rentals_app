@@ -409,7 +409,7 @@ CREATE TABLE `innodb_index_stats` (
 
 LOCK TABLES `innodb_index_stats` WRITE;
 /*!40000 ALTER TABLE `innodb_index_stats` DISABLE KEYS */;
-INSERT INTO `innodb_index_stats` VALUES ('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_diff_pfx01',0,1,'domain_id'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_diff_pfx02',0,1,'domain_id,sub_id'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','size',1,NULL,'Number of pages in the index'),('rentals','parent','PRIMARY','2018-04-16 22:17:12','n_diff_pfx01',4,1,'id'),('rentals','parent','PRIMARY','2018-04-16 22:17:12','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','parent','PRIMARY','2018-04-16 22:17:12','size',1,NULL,'Number of pages in the index'),('rentals','test','GEN_CLUST_INDEX','2018-04-17 18:26:32','n_diff_pfx01',11,1,'DB_ROW_ID'),('rentals','test','GEN_CLUST_INDEX','2018-04-17 18:26:32','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','test','GEN_CLUST_INDEX','2018-04-17 18:26:32','size',1,NULL,'Number of pages in the index'),('rentals','unit','PRIMARY','2018-04-16 23:05:10','n_diff_pfx01',32,1,'id'),('rentals','unit','PRIMARY','2018-04-16 23:05:10','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','unit','PRIMARY','2018-04-16 23:05:10','size',1,NULL,'Number of pages in the index'),('rentals','user','GEN_CLUST_INDEX','2018-04-10 15:15:30','n_diff_pfx01',0,1,'DB_ROW_ID'),('rentals','user','GEN_CLUST_INDEX','2018-04-10 15:15:30','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','user','GEN_CLUST_INDEX','2018-04-10 15:15:30','size',1,NULL,'Number of pages in the index');
+INSERT INTO `innodb_index_stats` VALUES ('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_diff_pfx01',0,1,'domain_id'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_diff_pfx02',0,1,'domain_id,sub_id'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('mysql','gtid_slave_pos','PRIMARY','2018-02-14 18:21:42','size',1,NULL,'Number of pages in the index'),('rentals','parent','PRIMARY','2018-04-16 22:17:12','n_diff_pfx01',4,1,'id'),('rentals','parent','PRIMARY','2018-04-16 22:17:12','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','parent','PRIMARY','2018-04-16 22:17:12','size',1,NULL,'Number of pages in the index'),('rentals','test','GEN_CLUST_INDEX','2018-04-17 18:26:32','n_diff_pfx01',11,1,'DB_ROW_ID'),('rentals','test','GEN_CLUST_INDEX','2018-04-17 18:26:32','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','test','GEN_CLUST_INDEX','2018-04-17 18:26:32','size',1,NULL,'Number of pages in the index'),('rentals','unit','PRIMARY','2018-04-16 23:05:10','n_diff_pfx01',32,1,'id'),('rentals','unit','PRIMARY','2018-04-16 23:05:10','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','unit','PRIMARY','2018-04-16 23:05:10','size',1,NULL,'Number of pages in the index'),('rentals','user','GEN_CLUST_INDEX','2018-04-19 17:17:57','n_diff_pfx01',1,1,'DB_ROW_ID'),('rentals','user','GEN_CLUST_INDEX','2018-04-19 17:17:57','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rentals','user','GEN_CLUST_INDEX','2018-04-19 17:17:57','size',1,NULL,'Number of pages in the index');
 /*!40000 ALTER TABLE `innodb_index_stats` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -437,7 +437,7 @@ CREATE TABLE `innodb_table_stats` (
 
 LOCK TABLES `innodb_table_stats` WRITE;
 /*!40000 ALTER TABLE `innodb_table_stats` DISABLE KEYS */;
-INSERT INTO `innodb_table_stats` VALUES ('mysql','gtid_slave_pos','2018-02-14 18:21:42',0,1,0),('rentals','parent','2018-04-16 22:17:12',4,1,0),('rentals','test','2018-04-17 18:26:32',11,1,0),('rentals','unit','2018-04-16 23:05:10',32,1,0),('rentals','user','2018-04-10 15:15:30',0,1,0);
+INSERT INTO `innodb_table_stats` VALUES ('mysql','gtid_slave_pos','2018-02-14 18:21:42',0,1,0),('rentals','parent','2018-04-16 22:17:12',4,1,0),('rentals','test','2018-04-17 18:26:32',11,1,0),('rentals','unit','2018-04-16 23:05:10',32,1,0),('rentals','user','2018-04-19 17:17:57',1,1,0);
 /*!40000 ALTER TABLE `innodb_table_stats` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1001,7 +1001,6 @@ CREATE TABLE `user` (
   `id` int(10) NOT NULL,
   `first_name` varchar(15) DEFAULT NULL,
   `last_name` varchar(20) DEFAULT NULL,
-  `phone` int(11) DEFAULT NULL,
   `email` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1012,7 +1011,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (5,'Dean','Winchester',1234567,'badass@.supernat.com');
+INSERT INTO `user` VALUES (5,'Dean','Winchester','badass@.supernat.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1025,4 +1024,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-17 15:21:38
+-- Dump completed on 2018-04-20 17:07:46

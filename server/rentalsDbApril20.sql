@@ -107,7 +107,6 @@ CREATE TABLE `user` (
   `id` int(10) NOT NULL,
   `first_name` varchar(15) DEFAULT NULL,
   `last_name` varchar(20) DEFAULT NULL,
-  `phone` int(11) DEFAULT NULL,
   `email` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -118,7 +117,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (5,'Dean','Winchester',1234567,'badass@.supernat.com');
+INSERT INTO `user` VALUES (5,'Dean','Winchester','badass@.supernat.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -131,4 +130,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-17 15:23:54
+-- Dump completed on 2018-04-20 17:08:21

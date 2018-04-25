@@ -31,8 +31,8 @@ class App extends Component {
       ]
     ],
     inputValues: {
-      rooms: 0, hardwood: 'none', wheelchair: 'none',
-      pets: 'none'
+      rooms: '', hardwood: '', 
+      wheelchair: '', pets: ''
     },
     availableRooms: null 
   }
