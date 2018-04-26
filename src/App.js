@@ -52,10 +52,6 @@ class App extends Component {
   //write .catch for submit function
 
   handleSubmitFiltered = (events) => {
-    // this.setState({
-    //   availableRooms: null
-    // });
-
     Axios.post('http://localhost:3001/filtered', {
       inputValues: this.state.inputValues
     })
@@ -88,12 +84,13 @@ class App extends Component {
         <div className="App">
           <Header />
           <HtmlMain />
-          <AvailableForm inputs={this.state.inputs} 
+          {/* <AvailableForm inputs={this.state.inputs} 
             rooms={this.state.availableRooms}
             onChange={this.handleInputChange}
             clickSubmitFiltered={this.handleSubmitFiltered}
-            clickAllAvail={this.handleSubmitAll}/>
-          <LoginPopup />
+            clickAllAvail={this.handleSubmitAll}/> 
+            NOTE: need to make appear when user clicks "available apts"*/}
+          {/* <LoginPopup /> NOTE: may not need this*/} 
           {/* <ul className="App_ul">
             <li>Available Apartments</li>
             <li>Apply Here!</li>

@@ -1,26 +1,32 @@
-div.createAcct {
+div.CreateAcct {
     background: whitesmoke;
-    position: absolute;
     border-radius: 5px;
+    display: inline-block;
+    margin: 10px 10px;
     padding: 15px 30px;
+    text-align: left;
 }
-.createAcct form {
+.CreateAcct form {
     display: flex;
     flex-direction: column;
     max-width: 100px;
     margin-top: 5px;
 
 }
-.createAcct input {
+.CreateAcct h3 {
+    margin: 0 auto 2rem;
+    
+}
+.CreateAcct input {
     margin-bottom: 15px;
     /* border: none;
     border-bottom: 1px solid grey;
     background-color: whitesmoke; */
 }
-.createAcct label {
+.CreateAcct label {
     font-size: .9rem;
     margin-bottom: 10px;
 }
-.createAcct button {
+.CreateAcct button {
     margin-top: 5px;
 }

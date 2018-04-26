@@ -7,6 +7,10 @@ const mysql = require('mysql');
 app.use(cors());
 app.use(bodyParser.json());
 
+app.listen(3001, () => {
+    console.log('Node server listening on port 3001');
+});
+
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -23,6 +27,8 @@ connection.connect((error) => {
 
     }
 });
+
+// ---------------------------------------> START show available apartments
 
 let formData, bedrooms, hardwood_floor, wheelchair_access, pets_allowed;
 
@@ -105,6 +111,62 @@ app.get('/allAvailable', (req, res) => {
         });
 });
 
-app.listen(3001, () => {
-    console.log('Node server listening on port 3001');
+// ---------------------------------------> END show available apartments
+
+// ---------------------------------------> START login page & create acct
+
+let first_name, last_name, email, password;
+
+let createAcctPromise = () => {   // user chose not to filter apartments
+
+    let promise = new Promise((resolve, reject) => {
+
+        connection.query(`INSERT INTO test (first_name, last_name, email, password)
+            VALUES (${first_name}, ${last_name}, ${email}, ${password};`, 
+            (error, data) => {
+            
+                if (error) {
+                    return reject(error);
+                }
+                resolve(data);
+        });
+    });
+    return promise;
+}
+
+app.post('/login', (req, res) => {
+    loginData = req.body.login;
+
+    console.log(loginData);
+
+    // lower case in order to interact smoothly with db values
+    let email = loginData.email.toLowerCase();
+
+    res.send(email);
+    
+        // .then((data) => {
+        //     res.send(JSON.stringify(data)); //needs to be in JSON bc axios will auto parse it on front end  
+        // })
+        // .catch((error) => {
+        //     console.log(`Error encountered`);
+        //     console.log(error);
+        // });
+});
+
+app.post('/createAcct', (req, res) => {
+    createData = req.body.createAcct;
+
+    let first_name = createData.firstName.toLowerCase(), // lower case in order to make more consistent
+        last_name = createData.lastName.toLowerCase(), // if ever need to check against db values
+        email = createData.email.toLowerCase(), 
+        password = createData.password;
+
+    connection.query(`INSERT INTO test (first_name, last_name, email, password)
+        VALUES ('${first_name}', '${last_name}', '${email}', '${password}');`,
+        (error, results) => {
+            if(error) {
+                return error;
+            }    
+        }
+    );
 });

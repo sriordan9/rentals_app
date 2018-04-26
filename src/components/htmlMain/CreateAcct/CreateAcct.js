@@ -2,9 +2,11 @@ import React from 'react';
 
 import './CreateAcct.css'
 
-const createAcct = () => {
+const createAcct = (props) => {
     return(
-        <div className="createAcct">
+        <div className="CreateAcct"
+            onChange={props.onChange}>
+            <h3>Create an Account</h3>
             <form>
                 <label>First Name</label>
                 <input type="text" name="firstName"></input>
@@ -14,7 +16,10 @@ const createAcct = () => {
                 <input type="text" name="email"></input>
                 <label>Password</label>
                 <input type="text" name="password"></input>
-                <button type="button">Create Account</button>
+                <label>Confirm Password</label>
+                <input type="text" name="pswdConfirm"></input>
+                <button onClick={props.clickCreate}
+                    type="button">Create Account</button>
             </form>
         </div>
     );
