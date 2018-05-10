@@ -1,11 +1,17 @@
-import React, { Component } from 'react';
 import Axios from 'axios';
+import React, { Component } from 'react';
 
 import CreatAcct from '../CreateAcct/CreateAcct';
 import Login from '../Login/Login';
 import './LoginPage.css';
 
 class LoginPage extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+    // find out how he passes props in the course besides using "super"
+
     state = {
         createAcct: {
             firstName: '',
@@ -17,7 +23,8 @@ class LoginPage extends Component {
         login: {
             email: '',
             password: ''
-        }
+        },
+        fieldRequiredClass: ""
     }
 
     handleLoginInput = (event) => {
@@ -35,7 +42,10 @@ class LoginPage extends Component {
         Axios.post('http://localhost:3001/login', {
             login: this.state.login
         }).then((response) => {
-            console.log(response);
+            
+            if(response.data === "successful") {
+                this.props.loggedIn();
+            }
         });
         // .then((response) => { 
         //     let data = response.data; //entire response is an object that includes header, status code, etc.
@@ -54,19 +64,36 @@ class LoginPage extends Component {
         });
     }
 
+    // handleFieldRequired = (event, missedField) {
+
+    //     // check if any fields empty
+        // if so then select empty field
+        // apply fieldRequierd class through props
+    // }
+
     handleCreateAcct = (event) => { // user clicks "create account" button
 
-        // 1) if both passwords are same, if not then display "passwords must match"
-        // message
-        // 2) if all fields not filled display "form incomplete" message
+        // // need to create a check if account already exists
+        // if(this.state.createAcct.password !== this.state.createAcct.pswdConfirm) {
+        //     console.log('Passwords must match');
+        // } else {
 
-        Axios.post('http://localhost:3001/createAcct', {
-            createAcct: this.state.createAcct
-        }).then((response) => {
-            // console.log('response received from express');
-            // or whatever else you may need to do such as 
-            // "account created" message
-        });
+        //     Axios.post('http://localhost:3001/createAcct', {
+        //         createAcct: this.state.createAcct
+        //     }).then((response) => {
+        //         // console.log('response received from express');
+        //         // or whatever else you may need to do such as 
+        //         // "account created" message
+        //     });
+        // }
+
+        if(this.state.createAcct.firstName === '') {
+            console.log('Something was missed');
+            console.log(event.target.value);
+            console.log(event.target);
+        } else {
+            console.log('form completed');
+        }
 
         // .then((response) => { 
         //     let data = response.data; //entire response is an object that includes header, status code, etc.
@@ -76,6 +103,7 @@ class LoginPage extends Component {
         // });
     }
 
+    // ** Place functions in alphabetical order
 
     render() {
         return (
@@ -83,7 +111,8 @@ class LoginPage extends Component {
                 <Login onChange={this.handleLoginInput} 
                     clickLogin={this.handleSubmitLogin} />
                 <CreatAcct onChange={this.handleCreateInput} 
-                    clickCreate={this.handleCreateAcct}/>
+                    clickCreate={this.handleCreateAcct}
+                    styleClasses={this.state.fieldRequiredClass}/>
             </div>
         );
     }

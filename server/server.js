@@ -1,8 +1,10 @@
 const express = require ('express');
-const app = express();
-const cors = require('cors');
 const bodyParser = require('body-parser');
+const cookieSession = require ('cookie-session');
+const cors = require('cors');
 const mysql = require('mysql');
+
+const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -113,7 +115,7 @@ app.get('/allAvailable', (req, res) => {
 
 // ---------------------------------------> END show available apartments
 
-// ---------------------------------------> START login page & create acct
+// ---------------------------------------> START login & create acct page
 
 let first_name, last_name, email, password;
 
@@ -140,13 +142,34 @@ app.post('/login', (req, res) => {
     console.log(loginData);
 
     // lower case in order to interact smoothly with db values
-    let email = loginData.email.toLowerCase();
+    let email = loginData.email.toLowerCase(),
+        password = loginData.password;
 
-    res.send(email);
-    
-        // .then((data) => {
-        //     res.send(JSON.stringify(data)); //needs to be in JSON bc axios will auto parse it on front end  
-        // })
+
+    let promise = () => {
+        return new Promise((resolve, reject) => {
+
+            connection.query(`SELECT password FROM test WHERE email = '${email}'`, 
+                (error, data) => {
+                
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(data);
+            });
+        })
+    };
+
+    promise().then((data) => {
+        console.log(data[0].password);
+        if(data[0] !== undefined &&  // if undefined then username doesn't exist in db
+            data[0].password === password) { //  check for correct password
+                
+                res.send("successful");
+
+        } else res.send('Please try again');
+
+    });
         // .catch((error) => {
         //     console.log(`Error encountered`);
         //     console.log(error);
@@ -170,3 +193,12 @@ app.post('/createAcct', (req, res) => {
         }
     );
 });
+
+
+// Auth and creating a session
+
+// 1) Create authorization function to check login info against db then next()
+// 2) Create login function which runs if auth passes and responds with
+// route to user account page
+
+// *separate some functions into separate files

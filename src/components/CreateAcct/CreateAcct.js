@@ -9,15 +9,22 @@ const createAcct = (props) => {
             <h3>Create an Account</h3>
             <form>
                 <label>First Name</label>
-                <input type="text" name="firstName"></input>
+                <input className={props.fieldRequiredClass}
+                    
+                    type="text" name="firstName"></input>
                 <label>Last Name</label>
-                <input type="text" name="lastName"></input>
+                <input 
+                    type="text" name="lastName"></input>
                 <label>Email</label>
-                <input type="text" name="email"></input>
+                <input 
+                    type="text" name="email"></input>
                 <label>Password</label>
-                <input type="text" name="password"></input>
+                <input 
+                    type="text" name="password"></input>
                 <label>Confirm Password</label>
-                <input type="text" name="pswdConfirm"></input>
+                <input 
+                    type="text" name="pswdConfirm"></input>
+                <p className="pswdCompare">Passwords must match</p>
                 <button onClick={props.clickCreate}
                     type="button">Create Account</button>
             </form>
