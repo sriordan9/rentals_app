@@ -1,12 +1,15 @@
 import Axios from 'axios'; 
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 
-import AvailableForm from './components/htmlMain/AvailableForm/AvailableForm';
-import LoginPopup from './components/htmlMain/LoginPopup/LoginPopup';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import HtmlMain from './components/htmlMain/HtmlMain';
+import Amenities from './components/Amenities/Amenities';
+import AvailableForm from './components/AvailableForm/AvailableForm';
+import LoginPage from './components/LoginPage/LoginPage';
+import Footer from './components/Footer/Footer';
+import Header from './components/Header/Header';
+import Home from './components/Home/Home';
+import UserAcct from './components/UserAcct/UserAcct';
+
 import './App.css';
 
 class App extends Component {
@@ -34,7 +37,19 @@ class App extends Component {
       rooms: '', hardwood: '', 
       wheelchair: '', pets: ''
     },
-    availableRooms: null 
+    availableRooms: null,
+    loggedIn: false 
+  }
+
+  handleLoginTrue = () => {
+    this.setState({
+      loggedIn: true
+    });
+  }
+  handleLoginFalse = () => {
+    this.setState({
+      loggedIn: false
+    });
   }
 
   //function to handl error for no rooms chosen
@@ -52,10 +67,6 @@ class App extends Component {
   //write .catch for submit function
 
   handleSubmitFiltered = (events) => {
-    // this.setState({
-    //   availableRooms: null
-    // });
-
     Axios.post('http://localhost:3001/filtered', {
       inputValues: this.state.inputValues
     })
@@ -78,27 +89,44 @@ class App extends Component {
       });
   }
 
-  // handleLoginPopup = () => {
-
-  // }
-
   render() {
+
+    const loginAuth = () => {
+      if(window.sessionStorage.email) {
+        return <Redirect to="/userAcct" />
+      } else {
+        return <LoginPage loggedIn={this.handleLoginTrue}/>
+      }
+    }
+
+    const userAuth = () => {
+      if(!window.sessionStorage.email) {
+        return <Redirect to="/loginPage" />
+      } else {
+        return <UserAcct loggedOut={this.handleLoginFalse}/>
+      }
+    }
+
     return (
       <BrowserRouter>
         <div className="App">
           <Header />
-          <HtmlMain />
-          <AvailableForm inputs={this.state.inputs} 
+          {/* <AvailableForm inputs={this.state.inputs} 
             rooms={this.state.availableRooms}
             onChange={this.handleInputChange}
             clickSubmitFiltered={this.handleSubmitFiltered}
-            clickAllAvail={this.handleSubmitAll}/>
-          <LoginPopup />
+            clickAllAvail={this.handleSubmitAll}/> 
+            NOTE: need to make appear when user clicks "available apts"*/}
           {/* <ul className="App_ul">
             <li>Available Apartments</li>
             <li>Apply Here!</li>
           </ul> */}
           {/* <Footer/> */}
+          <Route path="/" exact component={Home} />
+          <Route path="/amenities" exact component={Amenities} />
+          {/* <Route path="/pricing" exact component ={Pricing} /> */}
+          <Route path="/userAcct" render={userAuth} />
+          <Route path="/loginPage" render={loginAuth} />
         </div>
       </BrowserRouter>
     );

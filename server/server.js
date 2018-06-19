@@ -1,11 +1,28 @@
 const express = require ('express');
 const app = express();
-const cors = require('cors');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const mysql = require('mysql');
+const session = require ('express-session');
+
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(session({
+    secret: 'passCode',
+    resave: false,
+    cookie: {
+        secure: false
+    },
+    saveUninitialized: true
+}));
+
+
+app.listen(3001, () => {
+    console.log('Node server listening on port 3001');
+});
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -23,6 +40,8 @@ connection.connect((error) => {
 
     }
 });
+
+// ---------------------------------------> START show available apartments
 
 let formData, bedrooms, hardwood_floor, wheelchair_access, pets_allowed;
 
@@ -105,6 +124,82 @@ app.get('/allAvailable', (req, res) => {
         });
 });
 
-app.listen(3001, () => {
-    console.log('Node server listening on port 3001');
+// ---------------------------------------> END show available apartments
+
+// ---------------------------------------> START login & create acct page
+
+let first_name, last_name, email, password;
+
+let createAcctPromise = () => {   // user chose not to filter apartments
+
+    let promise = new Promise((resolve, reject) => {
+
+        connection.query(`INSERT INTO test (first_name, last_name, email, password)
+            VALUES (${first_name}, ${last_name}, ${email}, ${password};`, 
+            (error, data) => {
+            
+                if (error) {
+                    return reject(error);
+                }
+                resolve(data);
+        });
+    });
+    return promise;
+}
+
+app.post('/login', (req, res) => {
+    loginData = req.body.login;
+
+    // lower case in order to interact smoothly with db values
+    let email = loginData.email.toLowerCase(),
+        password = loginData.password;
+
+    let promise = () => {
+        return new Promise((resolve, reject) => {
+
+            connection.query(`SELECT password, first_name, email FROM test WHERE email = '${email}'`, 
+                (error, data) => {
+                
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(data);
+            });
+        })
+    };
+
+    promise().then((data) => {
+
+        if(data[0] !== undefined &&  // if undefined then username doesn't exist in db
+            data[0].password === password) { //  check for correct password
+
+                res.send(data[0]); // Send back name of person & reserved rooms for user dashboard
+
+        } else res.send(false); // Bad login info
+
+    });
+        // .catch((error) => {
+        //     console.log(`Error encountered`);
+        //     console.log(error);
+        // });
 });
+
+app.post('/createAcct', (req, res) => {
+    createData = req.body.createAcct;
+
+    let first_name = createData.firstName.toLowerCase(), // lower case in order to make more consistent
+        last_name = createData.lastName.toLowerCase(), // if ever need to check against db values
+        email = createData.email.toLowerCase(), 
+        password = createData.password;
+
+    connection.query(`INSERT INTO test (first_name, last_name, email, password)
+        VALUES ('${first_name}', '${last_name}', '${email}', '${password}');`,
+        (error, results) => {
+            if(error) {
+                return error;
+            }    
+        }
+    );
+});
+
+// * Separate some functions into separate files?

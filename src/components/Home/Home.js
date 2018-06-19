@@ -1,5 +1,5 @@
 import React from 'react';
-import MainImage from './../../images/Image';
+import MainImage from './../images/Image';
 
 const home = (props) => {
   return (

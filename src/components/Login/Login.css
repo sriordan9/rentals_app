@@ -1,26 +1,30 @@
-div.createAcct {
+div.Login {
     background: whitesmoke;
-    position: absolute;
     border-radius: 5px;
+    display: inline-block;
+    margin: 10px 10px;
     padding: 15px 30px;
 }
-.createAcct form {
+.Login form {
     display: flex;
     flex-direction: column;
     max-width: 100px;
     margin-top: 5px;
 
 }
-.createAcct input {
+.Login h3 {
+    margin: 0 auto 2rem;
+}
+.Login input {
     margin-bottom: 15px;
     /* border: none;
     border-bottom: 1px solid grey;
     background-color: whitesmoke; */
 }
-.createAcct label {
+.Login label {
     font-size: .9rem;
     margin-bottom: 10px;
 }
-.createAcct button {
+.Login button {
     margin-top: 5px;
 }
