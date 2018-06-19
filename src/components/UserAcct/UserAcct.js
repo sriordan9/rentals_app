@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import './UserAcct.css';
 
-const userAcct = () => {
-    return(
-        <div>
-            <h3>Welcom Name_here</h3>
-            <p>You currently have the following apartments:</p>
-            <p></p>
-        </div>
-    );
+class userAcct extends Component { // May not need it to extend component. Change back to const?
+
+    constructor(props) {
+        super(props);
+    }
+
+    handleLogOut = () => {
+        sessionStorage.clear();
+        this.props.loggedOut();        
+    }
+
+    render() {
+        return(
+            <div>
+                <h3>Welcome <span>{sessionStorage.name}</span></h3>
+                <p>You currently have the following apartments:</p>
+                <button type="button" onClick={this.handleLogOut}>Logout</button>
+            </div>
+        );
+    };
 };
 
 export default userAcct;

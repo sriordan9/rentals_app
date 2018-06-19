@@ -1,13 +1,24 @@
 const express = require ('express');
+const app = express();
 const bodyParser = require('body-parser');
-const cookieSession = require ('cookie-session');
 const cors = require('cors');
 const mysql = require('mysql');
+const session = require ('express-session');
 
-const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(session({
+    secret: 'passCode',
+    resave: false,
+    cookie: {
+        secure: false
+    },
+    saveUninitialized: true
+}));
+
 
 app.listen(3001, () => {
     console.log('Node server listening on port 3001');
@@ -139,17 +150,14 @@ let createAcctPromise = () => {   // user chose not to filter apartments
 app.post('/login', (req, res) => {
     loginData = req.body.login;
 
-    console.log(loginData);
-
     // lower case in order to interact smoothly with db values
     let email = loginData.email.toLowerCase(),
         password = loginData.password;
 
-
     let promise = () => {
         return new Promise((resolve, reject) => {
 
-            connection.query(`SELECT password FROM test WHERE email = '${email}'`, 
+            connection.query(`SELECT password, first_name, email FROM test WHERE email = '${email}'`, 
                 (error, data) => {
                 
                     if (error) {
@@ -161,13 +169,13 @@ app.post('/login', (req, res) => {
     };
 
     promise().then((data) => {
-        console.log(data[0].password);
+
         if(data[0] !== undefined &&  // if undefined then username doesn't exist in db
             data[0].password === password) { //  check for correct password
-                
-                res.send("successful");
 
-        } else res.send('Please try again');
+                res.send(data[0]); // Send back name of person & reserved rooms for user dashboard
+
+        } else res.send(false); // Bad login info
 
     });
         // .catch((error) => {
@@ -194,11 +202,4 @@ app.post('/createAcct', (req, res) => {
     );
 });
 
-
-// Auth and creating a session
-
-// 1) Create authorization function to check login info against db then next()
-// 2) Create login function which runs if auth passes and responds with
-// route to user account page
-
-// *separate some functions into separate files
+// * Separate some functions into separate files?

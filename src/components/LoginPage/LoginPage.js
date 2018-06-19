@@ -10,7 +10,6 @@ class LoginPage extends Component {
     constructor(props) {
         super(props);
     }
-    // find out how he passes props in the course besides using "super"
 
     state = {
         createAcct: {
@@ -36,23 +35,23 @@ class LoginPage extends Component {
         });
     }
 
-    handleSubmitLogin = (event) => {
-        console.log(this.state.login);
+    handleSubmitLogin = () => {
 
         Axios.post('http://localhost:3001/login', {
             login: this.state.login
-        }).then((response) => {
             
-            if(response.data === "successful") {
-                this.props.loggedIn();
-            }
-        });
-        // .then((response) => { 
-        //     let data = response.data; //entire response is an object that includes header, status code, etc.
-        //     this.setState({
-        //     availableRooms: data
-        //     });
-        // });
+        }).then((response) => {
+            let info = response.data;
+
+            if(response.data) {
+                sessionStorage.setItem('email', info.email);
+                sessionStorage.setItem('name', info.first_name);
+                this.props.loggedIn();                      // Updates state to {login: true} so component re-loads.  
+                                                            // If not, then email would save in sessionStorage, but user
+            } else {                                        // would need to reload for react to recheck sessionStorage.
+                // * create try again message for bad login
+            }                                              
+        });                                                 
     }
 
     handleCreateInput = (event) => { // user inputs data into "create account" form
@@ -87,13 +86,13 @@ class LoginPage extends Component {
         //     });
         // }
 
-        if(this.state.createAcct.firstName === '') {
-            console.log('Something was missed');
-            console.log(event.target.value);
-            console.log(event.target);
-        } else {
-            console.log('form completed');
-        }
+        // if(this.state.createAcct.firstName === '') {
+        //     console.log('Something was missed');
+        //     console.log(event.target.value);
+        //     console.log(event.target);
+        // } else {
+        //     console.log('form completed');
+        // }
 
         // .then((response) => { 
         //     let data = response.data; //entire response is an object that includes header, status code, etc.
@@ -116,7 +115,6 @@ class LoginPage extends Component {
             </div>
         );
     }
-
 }
 
 export default LoginPage;

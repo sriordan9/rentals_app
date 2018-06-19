@@ -90,6 +90,23 @@ class App extends Component {
   }
 
   render() {
+
+    const loginAuth = () => {
+      if(window.sessionStorage.email) {
+        return <Redirect to="/userAcct" />
+      } else {
+        return <LoginPage loggedIn={this.handleLoginTrue}/>
+      }
+    }
+
+    const userAuth = () => {
+      if(!window.sessionStorage.email) {
+        return <Redirect to="/loginPage" />
+      } else {
+        return <UserAcct loggedOut={this.handleLoginFalse}/>
+      }
+    }
+
     return (
       <BrowserRouter>
         <div className="App">
@@ -108,14 +125,8 @@ class App extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/amenities" exact component={Amenities} />
           {/* <Route path="/pricing" exact component ={Pricing} /> */}
-          {/* <Route path="/loginPage" exact component ={LoginPage} /> */}
-          <Route path="/loginPage" render={()=> (
-            !this.state.loggedIn ? 
-              (<LoginPage loggedIn={this.handleLoginTrue} 
-                loggedOut={this.handleLoginFalse}/>) : (<UserAcct />)
-          )}/>
-          {/* * Use redirect instead of render */}
-          {/* <Route path="/userAcct" component ={UserAcct} /> */}
+          <Route path="/userAcct" render={userAuth} />
+          <Route path="/loginPage" render={loginAuth} />
         </div>
       </BrowserRouter>
     );

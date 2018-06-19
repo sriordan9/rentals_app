@@ -19,7 +19,7 @@ const header = (props) => {
                     <ul id="list">
                         <li><Link to="/amenities">Amenities/Features</Link></li>
                         <li><Link to="/pricing">Pricing</Link></li>
-                        <li><Link to="/loginPage">Login</Link></li>
+                        <li><Link to="/loginPage">My Acct</Link></li>
                         <li className="contactButton"><a>Contact Us</a></li>
                         <ul className="contactInfo">
                             <li>Phone: 1-800-867-5309</li>
