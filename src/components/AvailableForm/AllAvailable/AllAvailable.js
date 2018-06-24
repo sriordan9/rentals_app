@@ -3,11 +3,13 @@ import React from 'react';
 import './AllAvailable.css';
 
 const allAvailable = (props) => {
+    
     return (
-        <select className='AllAvailable'> 
+        <select className='AllAvailable' onChange={props.handleSelectedApt}> 
+            <option>Please select one </option>
             {props.rooms.map((room, key) =>
                 
-                <option key={room.id}>
+                <option key={room.id} value={room.unit_number}>
                     Unit: {room.unit_number},
                     Wheelchair: {room.wheelchair_access}, 
                     Pets: {room.pets_allowed}
@@ -16,6 +18,7 @@ const allAvailable = (props) => {
             }
         </select>
     );
+    
 };
 
 export default allAvailable;

@@ -12,8 +12,8 @@ const header = (props) => {
     return (
         <div className="header">
             <header>
-                <Link to="/"><img className="logo" src={ logo } alt="Apartments logo"/></Link>
-                <Link to="/"><img className="logoName"src={ logoName } alt="Apartments logo"/></Link>
+                <Link to="/home"><img className="logo" src={ logo } alt="Apartments logo"/></Link>
+                <Link to="/home"><img className="logoName"src={ logoName } alt="Apartments logo"/></Link>
                 <nav>
                     <FontAwesomeIcon id="icon"icon={ faAlignJustify } size="2x" />
                     <ul id="list">

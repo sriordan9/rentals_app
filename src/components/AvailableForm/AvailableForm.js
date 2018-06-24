@@ -15,19 +15,21 @@ const availableForm = (props) => {
             rooms = <NoRooms rooms={props.rooms} />;         // empty & the string "no matches found" was sent instead
 
         } else if(props.rooms[0].bathrooms) {  // If data includes bathrooms then user chose the filtered search
-            rooms = <FilteredAvailable rooms={props.rooms}/>;
+            rooms = <FilteredAvailable rooms={props.rooms} 
+                handleSelectedApt={props.handleSelectedApt}/>;
 
         } else {    // If data doesn't include bathrooms, user did not filter apt results
-            rooms = <AllAvailable rooms={props.rooms}/>;
+            rooms = <AllAvailable rooms={props.rooms} 
+                handleSelectedApt={props.handleSelectedApt}/>;
         }
-    }
+    } 
     
     return(
         <div className='AvailableForm'>
             <form>
                 <fieldset>
                     <label>Number of rooms:</label>
-                    <Inputs inputs={props.inputs[0]} 
+                    <Inputs inputs={props.inputs[0]}
                         value={props.inputs[0].value} name={props.inputs[0].name}
                         onChange={props.onChange}/>
                 </fieldset>
@@ -49,11 +51,14 @@ const availableForm = (props) => {
                 {rooms}
                 <div className='btnContainer'>
                     <button type='button' onClick={props.clickSubmitFiltered}>Submit Filters</button>
-                    <button type='button' onClick={props.clickAllAvail}>All Available</button>
+                    <button type='button' onClick={props.clickAllAvail} >All Available</button>
+                    {/* <button type='button' onClick={props.clickReserve}>Reserve</button> */}
+                    <button type='button' onClick={props.handleReserveApt}>Reserve</button>
                 </div>
             </form>
         </div>
     );
+    
 };
 
 export default availableForm;

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 
 import Amenities from './components/Amenities/Amenities';
-import AvailableForm from './components/AvailableForm/AvailableForm';
 import LoginPage from './components/LoginPage/LoginPage';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
@@ -38,12 +37,13 @@ class App extends Component {
       wheelchair: '', pets: ''
     },
     availableRooms: null,
-    loggedIn: false 
+    loggedIn: false,
+    selectedApt: null, // from apartment dropdown
   }
 
-  handleLoginTrue = () => {
-    this.setState({
-      loggedIn: true
+  handleLoginTrue = () => { // Don't delete: Updates state to {login: true} so component re-loads.
+    this.setState({         // If not, then email would save in sessionStorage, but user
+      loggedIn: true        // would need to reload for react to recheck sessionStorage.
     });
   }
   handleLoginFalse = () => {
@@ -52,7 +52,7 @@ class App extends Component {
     });
   }
 
-  //function to handl error for no rooms chosen
+  //function to handle error for no rooms chosen
 
   handleInputChange = (event) => {
 
@@ -66,7 +66,8 @@ class App extends Component {
 
   //write .catch for submit function
 
-  handleSubmitFiltered = (events) => {
+  handleSubmitFiltered = () => {
+    
     Axios.post('http://localhost:3001/filtered', {
       inputValues: this.state.inputValues
     })
@@ -78,7 +79,8 @@ class App extends Component {
       });
   }
 
-  handleSubmitAll = (events) => {
+  handleSubmitAll = () => {
+    
     Axios.get('http://localhost:3001/allAvailable')
       .then((response) => { 
         let data = response.data; //entire response is an object that includes header, status code, etc.
@@ -87,6 +89,39 @@ class App extends Component {
           availableRooms: data
         });
       });
+  }
+
+  handleReserveApt = () => {
+    // console.log("clicked reserve");
+    // console.log(event.rooms);
+    if (this.state.selectedApt !== null // if user selected an apt & is logged in
+      && window.sessionStorage.email) { // then allow them to proceed & reserve
+      Axios.post('http://localhost:3001/reserveApt', {
+        selectedApt: this.state.selectedApt
+      })
+        .then((response) => { 
+          let data = response.data; //entire response is an object that includes header, status code, etc.
+          
+          console.log(data);        
+          // this.setState({
+          //   availableRooms: data
+          // });
+      });
+    } else {
+        console.log('something prevented reservation');
+        console.log('Must be loggedin');
+        // * Must be logged in message
+    }    
+  }
+
+  handleSelectedApt = (event) => {
+    this.setState({
+      selectedApt: event.target.value
+    });
+    // setTimeout(() => {
+    //   console.log('State is now:')
+    //   console.log(this.state.selectedApt);
+    // }, 1000); 
   }
 
   render() {
@@ -111,18 +146,25 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Header />
-          {/* <AvailableForm inputs={this.state.inputs} 
-            rooms={this.state.availableRooms}
-            onChange={this.handleInputChange}
-            clickSubmitFiltered={this.handleSubmitFiltered}
-            clickAllAvail={this.handleSubmitAll}/> 
-            NOTE: need to make appear when user clicks "available apts"*/}
+            <Route path="/home" render={() => (
+              <Home inputs={this.state.inputs} 
+              rooms={this.state.availableRooms}
+              onChange={this.handleInputChange}
+              clickSubmitFiltered={this.handleSubmitFiltered}
+              clickAllAvail={this.handleSubmitAll}
+              handleSelectedApt={this.handleSelectedApt}
+              handleReserveApt={this.handleReserveApt}
+
+              //handleReserveApt={this.handleReserveApt}
+              />
+            )} />
+            {/* NOTE: need to make appear when user clicks "available apts" */}
           {/* <ul className="App_ul">
             <li>Available Apartments</li>
             <li>Apply Here!</li>
           </ul> */}
           {/* <Footer/> */}
-          <Route path="/" exact component={Home} />
+          
           <Route path="/amenities" exact component={Amenities} />
           {/* <Route path="/pricing" exact component ={Pricing} /> */}
           <Route path="/userAcct" render={userAuth} />

@@ -3,21 +3,20 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql');
-const session = require ('express-session');
 
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(session({
-    secret: 'passCode',
-    resave: false,
-    cookie: {
-        secure: false
-    },
-    saveUninitialized: true
-}));
+// app.use(session({ // remove if from session package
+//     secret: 'passCode',
+//     resave: false,
+//     cookie: {
+//         secure: false
+//     },
+//     saveUninitialized: true
+// }));
 
 
 app.listen(3001, () => {
@@ -41,7 +40,7 @@ connection.connect((error) => {
     }
 });
 
-// ---------------------------------------> START show available apartments
+// ---------------------------------------> START show/reserve available apartments
 
 let formData, bedrooms, hardwood_floor, wheelchair_access, pets_allowed;
 
@@ -56,7 +55,8 @@ let filteredPromise = () => {   // user filtered apartments results
                 AND parent.pets_allowed = '${pets_allowed}'
                 AND unit.bedrooms = '${bedrooms}'
                 AND unit.hardwood_floor = '${hardwood_floor}'
-            INNER JOIN user ON unit.id != user.id;`, 
+            WHERE unit.id IS NOT NULL;`,
+            //INNER JOIN user ON unit.id != user.id;`, 
             (error, data) => {
 
                 if (error) {
@@ -79,9 +79,10 @@ let allAvailablePromise = () => {   // user chose not to filter apartments
             parent.wheelchair_access, parent.pets_allowed
             FROM unit 
             LEFT JOIN parent ON unit.parent_id = parent.id 
-            INNER JOIN user ON unit.id != user.id;`, 
+            WHERE unit.id IS NOT NULL;`,
+            //INNER JOIN user ON unit.id != user.id;`, 
             (error, data) => {
-            
+
                 if (error) {
                     return reject(error);
                 }
@@ -93,8 +94,6 @@ let allAvailablePromise = () => {   // user chose not to filter apartments
 
 app.post('/filtered', (req, res) => {
     formData = req.body.inputValues;
-
-    console.log(formData);
 
     bedrooms = formData.rooms,      // lower case in order to interact smoothly with db values
     hardwood_floor = formData.hardwood.toLowerCase(),
@@ -124,6 +123,11 @@ app.get('/allAvailable', (req, res) => {
         });
 });
 
+app.post('/reserveApt', (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+})
+
 // ---------------------------------------> END show available apartments
 
 // ---------------------------------------> START login & create acct page
@@ -134,7 +138,7 @@ let createAcctPromise = () => {   // user chose not to filter apartments
 
     let promise = new Promise((resolve, reject) => {
 
-        connection.query(`INSERT INTO test (first_name, last_name, email, password)
+        connection.query(`INSERT INTO user (first_name, last_name, email, password)
             VALUES (${first_name}, ${last_name}, ${email}, ${password};`, 
             (error, data) => {
             
@@ -157,7 +161,7 @@ app.post('/login', (req, res) => {
     let promise = () => {
         return new Promise((resolve, reject) => {
 
-            connection.query(`SELECT password, first_name, email FROM test WHERE email = '${email}'`, 
+            connection.query(`SELECT password, first_name, email FROM user WHERE email = '${email}'`, 
                 (error, data) => {
                 
                     if (error) {
@@ -192,7 +196,7 @@ app.post('/createAcct', (req, res) => {
         email = createData.email.toLowerCase(), 
         password = createData.password;
 
-    connection.query(`INSERT INTO test (first_name, last_name, email, password)
+    connection.query(`INSERT INTO user (first_name, last_name, email, password)
         VALUES ('${first_name}', '${last_name}', '${email}', '${password}');`,
         (error, results) => {
             if(error) {

@@ -4,10 +4,6 @@ import './UserAcct.css';
 
 class userAcct extends Component { // May not need it to extend component. Change back to const?
 
-    constructor(props) {
-        super(props);
-    }
-
     handleLogOut = () => {
         sessionStorage.clear();
         this.props.loggedOut();        
