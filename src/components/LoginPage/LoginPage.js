@@ -40,8 +40,15 @@ class LoginPage extends Component {
             let info = response.data;
 
             if(response.data) {
+                let first_name = info.first_name[0].toUpperCase() + info.first_name.slice(1);
+                
                 sessionStorage.setItem('email', info.email);
-                sessionStorage.setItem('name', info.first_name);
+                sessionStorage.setItem('name', first_name);
+                sessionStorage.setItem('user_id', info.id);
+                
+                if(info.unit_number) {
+                    sessionStorage.setItem('unit_number', info.unit_number);
+                }
                 this.props.loggedIn();                      // Updates state to {login: true} so component re-loads.  
                                                             // If not, then email would save in sessionStorage, but user
             } else {                                        // would need to reload for react to recheck sessionStorage.
@@ -53,7 +60,6 @@ class LoginPage extends Component {
     handleCreateInput = (event) => { // user inputs data into "create account" form
         let createAcctCopy = {...this.state.createAcct};
         createAcctCopy[event.target.name] = event.target.value;
-        console.log(createAcctCopy);
 
         this.setState({
             createAcct: {...createAcctCopy}

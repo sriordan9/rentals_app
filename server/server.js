@@ -9,15 +9,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-// app.use(session({ // remove if from session package
-//     secret: 'passCode',
-//     resave: false,
-//     cookie: {
-//         secure: false
-//     },
-//     saveUninitialized: true
-// }));
-
 
 app.listen(3001, () => {
     console.log('Node server listening on port 3001');
@@ -123,9 +114,33 @@ app.get('/allAvailable', (req, res) => {
         });
 });
 
-app.post('/reserveApt', (req, res) => {
-    console.log(req.body);
-    res.send(req.body);
+app.post('/reservedApt', (req, res) => {
+    email = req.body.email;
+
+    let promise = () => {
+        return new Promise((resolve, reject) => { // Chain promises to send first query, if no apt reserved then query returns nothing. Then need to send 2nd simple query.
+            connection.query(`SELECT unit.unit_number 
+                FROM user 
+                INNER JOIN unit 
+                ON user.id=unit.user_id 
+                AND user.email='${email}';`, 
+                (error, data) => {
+                    
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(data);      
+            });
+        })
+    };
+
+    promise().then((data) => {
+        
+        if(data[0] && data[0] !== undefined) {
+            res.send(data[0]);
+
+        } else res.send(false);
+    });
 })
 
 // ---------------------------------------> END show available apartments
@@ -134,22 +149,22 @@ app.post('/reserveApt', (req, res) => {
 
 let first_name, last_name, email, password;
 
-let createAcctPromise = () => {   // user chose not to filter apartments
+// let createAcctPromise = () => {   // user chose not to filter apartments
 
-    let promise = new Promise((resolve, reject) => {
+//     let promise = new Promise((resolve, reject) => {
 
-        connection.query(`INSERT INTO user (first_name, last_name, email, password)
-            VALUES (${first_name}, ${last_name}, ${email}, ${password};`, 
-            (error, data) => {
+//         connection.query(`INSERT INTO user (first_name, last_name, email, password)
+//             VALUES (${first_name}, ${last_name}, ${email}, ${password};`, 
+//             (error, data) => {
             
-                if (error) {
-                    return reject(error);
-                }
-                resolve(data);
-        });
-    });
-    return promise;
-}
+//                 if (error) {
+//                     return reject(error);
+//                 }
+//                 resolve(data);
+//         });
+//     });
+//     return promise;
+// }
 
 app.post('/login', (req, res) => {
     loginData = req.body.login;
@@ -159,15 +174,15 @@ app.post('/login', (req, res) => {
         password = loginData.password;
 
     let promise = () => {
-        return new Promise((resolve, reject) => {
-
-            connection.query(`SELECT password, first_name, email FROM user WHERE email = '${email}'`, 
+        return new Promise((resolve, reject) => { 
+            
+            connection.query(`SELECT password, first_name, email, id 
+                FROM user WHERE email='${email}';`, 
                 (error, data) => {
-                
                     if (error) {
                         return reject(error);
                     }
-                    resolve(data);
+                    resolve(data);      
             });
         })
     };
@@ -177,10 +192,9 @@ app.post('/login', (req, res) => {
         if(data[0] !== undefined &&  // if undefined then username doesn't exist in db
             data[0].password === password) { //  check for correct password
 
-                res.send(data[0]); // Send back name of person & reserved rooms for user dashboard
+                res.send(data[0]); // Send back name of person & email
 
         } else res.send(false); // Bad login info
-
     });
         // .catch((error) => {
         //     console.log(`Error encountered`);
@@ -189,7 +203,7 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/createAcct', (req, res) => {
-    createData = req.body.createAcct;
+    createData = req.body.createAcct; 
 
     let first_name = createData.firstName.toLowerCase(), // lower case in order to make more consistent
         last_name = createData.lastName.toLowerCase(), // if ever need to check against db values

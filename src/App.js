@@ -108,7 +108,6 @@ class App extends Component {
           // });
       });
     } else {
-        console.log('something prevented reservation');
         console.log('Must be loggedin');
         // * Must be logged in message
     }    
@@ -142,22 +141,24 @@ class App extends Component {
       }
     }
 
+    const homePage = () => {    // Can't use "exact component" if using render inline. So created new variable for component 
+      return(                    // If not using exact component, other pages display on top of home page. 
+        <Home inputs={this.state.inputs} 
+          rooms={this.state.availableRooms}
+          onChange={this.handleInputChange}
+          clickSubmitFiltered={this.handleSubmitFiltered}
+          clickAllAvail={this.handleSubmitAll}
+          handleSelectedApt={this.handleSelectedApt}
+          handleReserveApt={this.handleReserveApt} />
+      );
+    }
+
     return (
       <BrowserRouter>
         <div className="App">
           <Header />
-            <Route path="/home" render={() => (
-              <Home inputs={this.state.inputs} 
-              rooms={this.state.availableRooms}
-              onChange={this.handleInputChange}
-              clickSubmitFiltered={this.handleSubmitFiltered}
-              clickAllAvail={this.handleSubmitAll}
-              handleSelectedApt={this.handleSelectedApt}
-              handleReserveApt={this.handleReserveApt}
-
-              //handleReserveApt={this.handleReserveApt}
-              />
-            )} />
+          {/* <Route path="/"  */}
+            <Route path="/" exact component={homePage} />     
             {/* NOTE: need to make appear when user clicks "available apts" */}
           {/* <ul className="App_ul">
             <li>Available Apartments</li>
