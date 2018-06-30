@@ -5,8 +5,11 @@ import './Input.css';
 const input = (props) => { 
     return(
         <div>
-            <input type={props.type} value={props.value} name={props.name}
-                onChange={props.onChange}></input>
+            <input id={props.id} type={props.type} name={props.name}
+                checked={props.selectedRadio === props.id}
+                onChange={props.onChange}
+                value={props.value}
+                ></input>
             <span>{props.value}</span>
         </div>
     );

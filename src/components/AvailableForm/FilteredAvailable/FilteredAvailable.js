@@ -4,7 +4,8 @@ import './FilteredAvailable.css';
 
 const availableRooms = (props) => {
     return (
-        <select className='FilteredAvailable' onChange={props.handleSelectedApt}>
+        <select className='FilteredAvailable' onChange={props.handleSelectedApt}
+        value={props.selectedApt}>
             <option>Please select one </option> 
             {props.rooms.map((room, key) =>
                 

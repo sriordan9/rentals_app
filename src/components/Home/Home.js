@@ -13,6 +13,9 @@ const home = (props) => {
             clickAllAvail={props.clickAllAvail}
             handleSelectedApt={props.handleSelectedApt}
             handleReserveApt={props.handleReserveApt}
+            selectedApt={props.selectedApt}
+            selectedRadio={props.selectedRadio}
+            handleSelectRadio={props.handleSelectRadio} 
             />
       </div>
   );

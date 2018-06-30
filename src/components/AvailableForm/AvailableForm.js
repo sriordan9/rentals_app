@@ -16,37 +16,45 @@ const availableForm = (props) => {
 
         } else if(props.rooms[0].bathrooms) {  // If data includes bathrooms then user chose the filtered search
             rooms = <FilteredAvailable rooms={props.rooms} 
-                handleSelectedApt={props.handleSelectedApt}/>;
+                handleSelectedApt={props.handleSelectedApt}
+                selectedApt={props.selectedApt} />;
 
         } else {    // If data doesn't include bathrooms, user did not filter apt results
             rooms = <AllAvailable rooms={props.rooms} 
-                handleSelectedApt={props.handleSelectedApt}/>;
+                handleSelectedApt={props.handleSelectedApt}
+                selectedApt={props.selectedApt}
+                />;
         }
     } 
     
     return(
         <div className='AvailableForm'>
-            <form>
+            <form onChange={props.handleSelectRadio} >
                 <fieldset>
                     <label>Number of rooms:</label>
                     <Inputs inputs={props.inputs[0]}
                         value={props.inputs[0].value} name={props.inputs[0].name}
-                        onChange={props.onChange}/>
+                        onChange={props.onChange}
+                        selectedRadio={props.selectedRadio.radioGroup1} 
+                        />
                 </fieldset>
                 <fieldset>
                     <label>Hardwood floor:</label>
                     <Inputs inputs={props.inputs[1]} value={props.inputs[1].value}
-                        name={props.inputs[1].name} onChange={props.onChange}/>
+                        name={props.inputs[1].name} onChange={props.onChange}
+                        selectedRadio={props.selectedRadio.radioGroup2}/>
                 </fieldset>
                 <fieldset>
                     <label>Wheelchair Access:</label>
                     <Inputs inputs={props.inputs[2]} value={props.inputs[2].value}
-                        name={props.inputs[2].name} onChange={props.onChange}/>
+                        name={props.inputs[2].name} onChange={props.onChange}
+                        selectedRadio={props.selectedRadio.radioGroup3}/>
                 </fieldset>
                 <fieldset>
                     <label>Pets allowed:</label>
                     <Inputs inputs={props.inputs[3]} value={props.inputs[3].value}
-                        name={props.inputs[3].name} onChange={props.onChange}/>
+                        name={props.inputs[3].name} onChange={props.onChange}
+                        selectedRadio={props.selectedRadio.radioGroup4}/>
                 </fieldset>
                 {rooms}
                 <div className='btnContainer'>

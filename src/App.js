@@ -36,9 +36,36 @@ class App extends Component {
       rooms: '', hardwood: '', 
       wheelchair: '', pets: ''
     },
+    selectedRadio: { 
+      radioGroup1: null,
+      radioGroup2: null,
+      radioGroup3: null,
+      radioGroup4: null
+    },
     availableRooms: null,
     loggedIn: false,
-    selectedApt: null, // from apartment dropdown
+    selectedApt: undefined // from apartment dropdown. Must be "undefined" bc if initially 
+  }                         // set to null it causes an error
+
+  handleSelectRadio = (event) => {                // Update state for radio button groups & relays values
+    let copyForm = {...this.state.selectedRadio}; // down to component through selectedRadio prop
+    
+    if (event.target.name === 'rooms') {
+      copyForm.radioGroup1 = event.target.id;
+      
+    } else if (event.target.name === 'hardwood') {
+      copyForm.radioGroup2 = event.target.id;
+    
+    } else if (event.target.name === 'wheelchair') {
+      copyForm.radioGroup3 = event.target.id;
+
+    } else if (event.target.name === 'pets') {
+      copyForm.radioGroup4 = event.target.id;
+
+    }    
+    this.setState({
+      selectedRadio: {...copyForm}
+    });
   }
 
   handleLoginTrue = () => { // Don't delete: Updates state to {login: true} so component re-loads.
@@ -67,7 +94,6 @@ class App extends Component {
   //write .catch for submit function
 
   handleSubmitFiltered = () => {
-    
     Axios.post('http://localhost:3001/filtered', {
       inputValues: this.state.inputValues
     })
@@ -80,7 +106,7 @@ class App extends Component {
   }
 
   handleSubmitAll = () => {
-    
+    console.log(this.state.selectedRadio);
     Axios.get('http://localhost:3001/allAvailable')
       .then((response) => { 
         let data = response.data; //entire response is an object that includes header, status code, etc.
@@ -92,8 +118,7 @@ class App extends Component {
   }
 
   handleReserveApt = () => {
-    // console.log("clicked reserve");
-    // console.log(event.rooms);
+    console.log(this.state.selectedRadio);
     if (this.state.selectedApt !== null // if user selected an apt & is logged in
       && window.sessionStorage.email) { // then allow them to proceed & reserve
       Axios.post('http://localhost:3001/reserveApt', {
@@ -116,11 +141,7 @@ class App extends Component {
   handleSelectedApt = (event) => {
     this.setState({
       selectedApt: event.target.value
-    });
-    // setTimeout(() => {
-    //   console.log('State is now:')
-    //   console.log(this.state.selectedApt);
-    // }, 1000); 
+    }); 
   }
 
   render() {
@@ -148,8 +169,11 @@ class App extends Component {
           onChange={this.handleInputChange}
           clickSubmitFiltered={this.handleSubmitFiltered}
           clickAllAvail={this.handleSubmitAll}
-          handleSelectedApt={this.handleSelectedApt}
-          handleReserveApt={this.handleReserveApt} />
+          handleSelectedApt={this.handleSelectedApt} // Finds which apt number was selected
+          handleReserveApt={this.handleReserveApt}
+          selectedApt={this.state.selectedApt} // Passes down the currently selected option value to component (2 way binding?)
+          selectedRadio={this.state.selectedRadio} // Same as selectedApt, but for radio buttons
+          handleSelectRadio={this.handleSelectRadio}/>
       );
     }
 
@@ -158,7 +182,7 @@ class App extends Component {
         <div className="App">
           <Header />
           {/* <Route path="/"  */}
-            <Route path="/" exact component={homePage} />     
+            <Route path="/" exact component={homePage} />    
             {/* NOTE: need to make appear when user clicks "available apts" */}
           {/* <ul className="App_ul">
             <li>Available Apartments</li>
