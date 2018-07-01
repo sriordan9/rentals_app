@@ -7,10 +7,6 @@ import './LoginPage.css';
 
 class LoginPage extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     state = {
         createAcct: {
             firstName: '',
@@ -44,8 +40,15 @@ class LoginPage extends Component {
             let info = response.data;
 
             if(response.data) {
+                let first_name = info.first_name[0].toUpperCase() + info.first_name.slice(1);
+                
                 sessionStorage.setItem('email', info.email);
-                sessionStorage.setItem('name', info.first_name);
+                sessionStorage.setItem('name', first_name);
+                sessionStorage.setItem('user_id', info.id);
+                
+                if(info.unit_number) {
+                    sessionStorage.setItem('unit_number', info.unit_number);
+                }
                 this.props.loggedIn();                      // Updates state to {login: true} so component re-loads.  
                                                             // If not, then email would save in sessionStorage, but user
             } else {                                        // would need to reload for react to recheck sessionStorage.
@@ -73,26 +76,26 @@ class LoginPage extends Component {
     handleCreateAcct = (event) => { // user clicks "create account" button
 
         // // need to create a check if account already exists
-        // if(this.state.createAcct.password !== this.state.createAcct.pswdConfirm) {
-        //     console.log('Passwords must match');
-        // } else {
+        if(this.state.createAcct.password !== this.state.createAcct.pswdConfirm) {
+            console.log('Passwords must match');
+        } else {
 
-        //     Axios.post('http://localhost:3001/createAcct', {
-        //         createAcct: this.state.createAcct
-        //     }).then((response) => {
-        //         // console.log('response received from express');
-        //         // or whatever else you may need to do such as 
-        //         // "account created" message
-        //     });
-        // }
+            Axios.post('http://localhost:3001/createAcct', {
+                createAcct: this.state.createAcct
+            }).then((response) => {
+                // console.log('response received from express');
+                // or whatever else you may need to do such as 
+                // "account created" message
+            });
+        }
 
-        // if(this.state.createAcct.firstName === '') {
-        //     console.log('Something was missed');
-        //     console.log(event.target.value);
-        //     console.log(event.target);
-        // } else {
-        //     console.log('form completed');
-        // }
+        if(this.state.createAcct.firstName === '') {
+            console.log('Something was missed');
+            console.log(event.target.value);
+            console.log(event.target);
+        } else {
+            console.log('form completed');
+        }
 
         // .then((response) => { 
         //     let data = response.data; //entire response is an object that includes header, status code, etc.
