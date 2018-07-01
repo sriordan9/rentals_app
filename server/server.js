@@ -114,7 +114,7 @@ app.get('/allAvailable', (req, res) => {
         });
 });
 
-app.post('/reservedApt', (req, res) => {
+app.post('/reservedApt', (req, res) => { // sends front end the apartments user has reserved
     email = req.body.email;
 
     let promise = () => {
@@ -140,6 +140,56 @@ app.post('/reservedApt', (req, res) => {
             res.send(data[0]);
 
         } else res.send(false);
+    });
+})
+
+app.post('/reserveAnApt', (req, res) => { // sends front end the apartments user has reserved
+    
+    info = req.body;
+    
+    let promise = () => {
+        return new Promise((resolve, reject) => { 
+            connection.query(`UPDATE unit 
+                SET user_id=${info.user_id} 
+                WHERE unit_number=${info.selectedApt};`, 
+                (error, data) => {
+                    
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(data);      
+            });
+        })
+    };
+
+    promise().then(() => {
+       res.send('Apt reserved!')
+    });
+})
+
+app.post('/unReserveApt', (req, res) => { // sends front end the apartments user has reserved
+    
+    info = req.body;
+    console.log(info);
+
+    let promise = () => {
+        return new Promise((resolve, reject) => { 
+            connection.query(`UPDATE unit 
+                SET user_id=NULL 
+                WHERE unit_number=${info.unit_number};`, 
+                (error, data) => {
+                    
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(data);      
+            });
+        })
+    };
+
+    promise().then(() => {
+        res.send('Apt removed');
+        
     });
 })
 

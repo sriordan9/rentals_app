@@ -106,7 +106,6 @@ class App extends Component {
   }
 
   handleSubmitAll = () => {
-    console.log(this.state.selectedRadio);
     Axios.get('http://localhost:3001/allAvailable')
       .then((response) => { 
         let data = response.data; //entire response is an object that includes header, status code, etc.
@@ -118,24 +117,43 @@ class App extends Component {
   }
 
   handleReserveApt = () => {
-    console.log(this.state.selectedRadio);
-    if (this.state.selectedApt !== null // if user selected an apt & is logged in
+    if (this.state.selectedApt !== undefined // if user selected an apt & is logged in
       && window.sessionStorage.email) { // then allow them to proceed & reserve
-      Axios.post('http://localhost:3001/reserveApt', {
-        selectedApt: this.state.selectedApt
-      })
-        .then((response) => { 
-          let data = response.data; //entire response is an object that includes header, status code, etc.
-          
-          console.log(data);        
-          // this.setState({
-          //   availableRooms: data
-          // });
-      });
-    } else {
+      
+        if(window.sessionStorage.reservedApt) { // Don't proceed if they already have an apt
+        console.log('You already reserved an apt');
+
+      } else {
+          Axios.post('http://localhost:3001/reserveAnApt', {
+            selectedApt: this.state.selectedApt,
+            user_id: window.sessionStorage.user_id
+          })
+            .then((response) => { 
+              let data = response.data; //entire response is an object that includes header, status code, etc.
+              
+              console.log(data); 
+              // when stuff comes back, or when true is sent then display message 'apartment reserved!'       
+              //update state or session storage so the apt shows in the user dashboard
+            });
+      }
+    } else if(!window.sessionStorage.email) {
         console.log('Must be loggedin');
-        // * Must be logged in message
     }    
+  }
+
+  handleRemoveApt = () => {
+    // if(window.sessionStorage.unit_number)
+    Axios.post('http://localhost:3001/unReserveApt', {
+      unit_number: window.sessionStorage.reservedApt,
+      user_id: window.sessionStorage.user_id
+    })
+      .then((response) => { 
+        let data = response.data; 
+        
+        console.log(data); 
+        sessionStorage.removeItem('reservedApt');
+        window.location.reload();
+    });
   }
 
   handleSelectedApt = (event) => {
@@ -158,7 +176,8 @@ class App extends Component {
       if(!window.sessionStorage.email) {
         return <Redirect to="/loginPage" />
       } else {
-        return <UserAcct loggedOut={this.handleLoginFalse}/>
+        return <UserAcct loggedOut={this.handleLoginFalse}
+          handleRemoveApt={this.handleRemoveApt}/>
       }
     }
 

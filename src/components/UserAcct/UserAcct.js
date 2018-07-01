@@ -32,12 +32,17 @@ class userAcct extends Component { // May not need it to extend component. Chang
         this.props.loggedOut();        
     }
 
-    render() {             
+    render(props) {             
         return(
             <div>
                 <h3>Welcome <span>{sessionStorage.name}</span></h3>
                 <p>You currently have the following apartments:</p>
-                <p>{this.state.reservedApt}</p>
+                <div>
+                    <span>{this.state.reservedApt}</span>
+                    <button type="button"
+                        onClick={this.props.handleRemoveApt}>
+                        Remove</button>
+                </div>
                 <button type="button" onClick={this.handleLogOut}>Logout</button>
             </div>
         );
