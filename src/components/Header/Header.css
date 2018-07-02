@@ -10,6 +10,14 @@
     padding: 0;
     text-align: left;
 }
+ul.contactInfo {
+    margin-top: 0;
+}
+@media only screen and (max-width: 649px) {
+    ul.contactInfo {
+        margin-top: -39px;
+    }
+}
 @media only screen and (min-width: 650px) {
     ul.contactInfo {
         animation: slideUp 0.5s;

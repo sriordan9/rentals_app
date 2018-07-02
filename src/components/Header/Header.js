@@ -1,14 +1,14 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faAlignJustify } from '@fortawesome/fontawesome-free-solid';
 
 import './Header.css';
-import logo from '../images/jpg_files/logo.png';
-import logoName from '../images/jpg_files/logo_name.png';
+import logo from '../images/logo.png';
+import logoName from '../images/logo_name.png';
 
-const header = (props) => {
+const header = () => {
     return (
         <div className="header">
             <header>
@@ -17,8 +17,8 @@ const header = (props) => {
                 <nav>
                     <FontAwesomeIcon id="icon"icon={ faAlignJustify } size="2x" />
                     <ul id="list">
+                        <li><Link to="/">Home</Link></li>
                         <li><Link to="/amenities">Amenities/Features</Link></li>
-                        <li><Link to="/pricing">Pricing</Link></li>
                         <li><Link to="/loginPage">My Acct</Link></li>
                         <li className="contactButton"><a>Contact Us</a></li>
                         <ul className="contactInfo">

@@ -142,18 +142,19 @@ class App extends Component {
   }
 
   handleRemoveApt = () => {
-    // if(window.sessionStorage.unit_number)
-    Axios.post('http://localhost:3001/unReserveApt', {
-      unit_number: window.sessionStorage.reservedApt,
-      user_id: window.sessionStorage.user_id
-    })
-      .then((response) => { 
-        let data = response.data; 
-        
-        console.log(data); 
-        sessionStorage.removeItem('reservedApt');
-        window.location.reload();
-    });
+    if(window.sessionStorage.reservedApt) {
+      Axios.post('http://localhost:3001/unReserveApt', {
+        unit_number: window.sessionStorage.reservedApt,
+        user_id: window.sessionStorage.user_id
+      })
+        .then((response) => { 
+          let data = response.data; 
+          
+          console.log(data); 
+          sessionStorage.removeItem('reservedApt');
+          window.location.reload();
+      });
+    }
   }
 
   handleSelectedApt = (event) => {
@@ -200,17 +201,14 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Header />
-          {/* <Route path="/"  */}
-            <Route path="/" exact component={homePage} />    
-            {/* NOTE: need to make appear when user clicks "available apts" */}
+          <Route path="/" exact component={homePage} />    
+          {/* NOTE: need to make appear when user clicks "available apts" */}
           {/* <ul className="App_ul">
             <li>Available Apartments</li>
             <li>Apply Here!</li>
           </ul> */}
           {/* <Footer/> */}
-          
           <Route path="/amenities" exact component={Amenities} />
-          {/* <Route path="/pricing" exact component ={Pricing} /> */}
           <Route path="/userAcct" render={userAuth} />
           <Route path="/loginPage" render={loginAuth} />
         </div>

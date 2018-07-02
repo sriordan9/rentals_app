@@ -1,0 +1,14 @@
+.Home{
+    background-image: url("../images/apartment_kitchen.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 733px;
+    margin-top: 75px;
+}
+.Home h2, .Home p {    
+    text-align: center;
+}
+.Home h2 {
+    margin-top: 0;
+    padding-top: 30px;
+}

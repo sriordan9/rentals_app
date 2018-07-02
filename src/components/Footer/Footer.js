@@ -4,7 +4,7 @@ import './Footer.css';
 const footer = () => {
     return (
         <div className="footer">
-            <p>Copyright &copy; <span>Supernatural Apartments</span> 2018</p>
+            <p>Copyright &copy; <span>Coder's Cove Apartments</span> 2018</p>
         </div>
     );
 };

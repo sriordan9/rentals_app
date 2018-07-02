@@ -34,9 +34,9 @@ class userAcct extends Component { // May not need it to extend component. Chang
 
     render(props) {             
         return(
-            <div>
+            <div className="UserAcct">
                 <h3>Welcome <span>{sessionStorage.name}</span></h3>
-                <p>You currently have the following apartments:</p>
+                <p>Your apartments:</p>
                 <div>
                     <span>{this.state.reservedApt}</span>
                     <button type="button"

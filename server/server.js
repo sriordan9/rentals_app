@@ -170,7 +170,6 @@ app.post('/reserveAnApt', (req, res) => { // sends front end the apartments user
 app.post('/unReserveApt', (req, res) => { // sends front end the apartments user has reserved
     
     info = req.body;
-    console.log(info);
 
     let promise = () => {
         return new Promise((resolve, reject) => { 

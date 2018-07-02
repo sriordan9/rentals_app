@@ -13,9 +13,10 @@
 }
 .AvailableForm form {
     margin: auto;
-    margin-top: -60%; /* Was 10%*/
+    /* margin-top: -60%; Was 10% */
     max-width: 350px;
     position: relative;
+    top: 30px;
     z-index: 2;
 }
 @media only screen and (max-width: 580px) {
