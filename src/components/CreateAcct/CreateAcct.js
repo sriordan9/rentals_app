@@ -24,7 +24,7 @@ const createAcct = (props) => {
                 <label>Confirm Password</label>
                 <input 
                     type="text" name="pswdConfirm"></input>
-                <p className="pswdCompare">Passwords must match</p>
+                {/* <p className="pswdCompare">Passwords must match</p> */}
                 <button onClick={props.clickCreate}
                     type="button">Create Account</button>
             </form>

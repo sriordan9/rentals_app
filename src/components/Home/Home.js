@@ -1,11 +1,13 @@
 import React from 'react';
-import MainImage from './../images/Image';
 import AvailableForm from '../AvailableForm/AvailableForm';
+
+import './Home.css';
 
 const home = (props) => {
   return (
-      <div>
-          <MainImage />
+      <div className="Home">
+          <h2>Please see our apartment selection below!</h2>
+          <p>(Must be logged in to reserve)</p>
           <AvailableForm inputs={props.inputs} 
             rooms={props.rooms}
             onChange={props.onChange}

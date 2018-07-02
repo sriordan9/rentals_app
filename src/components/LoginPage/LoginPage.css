@@ -1,4 +1,11 @@
-div.LoginPage {
-    position: absolute;
-    left: 10px;
+.LoginPage {
+    /* position: absolute;
+    left: 10px; */
+    display: flex;
+    text-align: left;
+    width: 100%;
+}
+
+.LoginPage section {
+    margin-left: 0;
 }

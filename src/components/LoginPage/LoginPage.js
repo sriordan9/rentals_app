@@ -78,31 +78,21 @@ class LoginPage extends Component {
         // // need to create a check if account already exists
         if(this.state.createAcct.password !== this.state.createAcct.pswdConfirm) {
             console.log('Passwords must match');
-        } else {
+
+        } else if(this.state.createAcct.email){
 
             Axios.post('http://localhost:3001/createAcct', {
                 createAcct: this.state.createAcct
-            }).then((response) => {
-                // console.log('response received from express');
-                // or whatever else you may need to do such as 
+            }).then(() => {
                 // "account created" message
             });
-        }
+            window.location.reload();
+            console.log('form completed'); 
 
-        if(this.state.createAcct.firstName === '') {
-            console.log('Something was missed');
-            console.log(event.target.value);
-            console.log(event.target);
         } else {
-            console.log('form completed');
+            console.log('error encountered');
+            
         }
-
-        // .then((response) => { 
-        //     let data = response.data; //entire response is an object that includes header, status code, etc.
-        //     this.setState({
-        //     availableRooms: data
-        //     });
-        // });
     }
 
     // ** Place functions in alphabetical order
@@ -110,11 +100,13 @@ class LoginPage extends Component {
     render() {
         return (
             <div className="LoginPage">
-                <Login onChange={this.handleLoginInput} 
-                    clickLogin={this.handleSubmitLogin} />
-                <CreatAcct onChange={this.handleCreateInput} 
-                    clickCreate={this.handleCreateAcct}
-                    styleClasses={this.state.fieldRequiredClass}/>
+                <section>
+                    <Login onChange={this.handleLoginInput} 
+                        clickLogin={this.handleSubmitLogin} />
+                    <CreatAcct onChange={this.handleCreateInput} 
+                        clickCreate={this.handleCreateAcct}
+                        styleClasses={this.state.fieldRequiredClass}/>
+                </section>
             </div>
         );
     }
