@@ -46,7 +46,8 @@ let filteredPromise = () => {   // user filtered apartments results
                 AND parent.pets_allowed = '${pets_allowed}'
                 AND unit.bedrooms = '${bedrooms}'
                 AND unit.hardwood_floor = '${hardwood_floor}'
-            WHERE unit.id IS NOT NULL;`,
+            WHERE unit.id IS NOT NULL
+            AND unit.user_id IS NULL;`,
             //INNER JOIN user ON unit.id != user.id;`, 
             (error, data) => {
 
@@ -70,7 +71,8 @@ let allAvailablePromise = () => {   // user chose not to filter apartments
             parent.wheelchair_access, parent.pets_allowed
             FROM unit 
             LEFT JOIN parent ON unit.parent_id = parent.id 
-            WHERE unit.id IS NOT NULL;`,
+            WHERE unit.id IS NOT NULL
+            AND unit.user_id IS NULL;`,
             //INNER JOIN user ON unit.id != user.id;`, 
             (error, data) => {
 

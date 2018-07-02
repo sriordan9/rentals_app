@@ -12,6 +12,13 @@ import UserAcct from './components/UserAcct/UserAcct';
 import './App.css';
 
 class App extends Component {
+
+    componentDidMount () {
+      console.log('need to change the axios requests from local host');
+      console.log('for the pi, requests should be to http://192.168.0.22:3001/');
+    }
+
+
   state = {
     inputs: [
       [
