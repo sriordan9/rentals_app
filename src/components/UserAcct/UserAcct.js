@@ -36,14 +36,17 @@ class userAcct extends Component { // May not need it to extend component. Chang
         return(
             <div className="UserAcct">
                 <h3>Welcome <span>{sessionStorage.name}</span></h3>
-                <p>Your apartments:</p>
-                <div>
-                    <span>{this.state.reservedApt}</span>
-                    <button type="button"
-                        onClick={this.props.handleRemoveApt}>
-                        Remove</button>
-                </div>
-                <button type="button" onClick={this.handleLogOut}>Logout</button>
+                <section>
+                    <p>Your apartment:</p>
+                    <div>
+                        <span className="apt-num">{this.state.reservedApt}</span>
+                        <button type="button"
+                            onClick={this.props.handleRemoveApt}>
+                            Remove</button>
+                    </div>
+                    <button className="logout-btn" type="button" 
+                        onClick={this.handleLogOut}>Logout</button>
+                </section>
             </div>
         );
     };

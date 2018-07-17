@@ -120,7 +120,8 @@ class App extends Component {
         this.setState({
           availableRooms: data
         });
-      });
+      })
+      .catch(error => console.log(error));
   }
 
   handleReserveApt = () => {
@@ -128,7 +129,8 @@ class App extends Component {
       && window.sessionStorage.email) { // then allow them to proceed & reserve
       
         if(window.sessionStorage.reservedApt) { // Don't proceed if they already have an apt
-        console.log('You already reserved an apt');
+        
+        // console.log('You already reserved an apt');
 
       } else {
           Axios.post('http://localhost:3001/reserveAnApt', {
@@ -138,7 +140,8 @@ class App extends Component {
             .then((response) => { 
               let data = response.data; //entire response is an object that includes header, status code, etc.
               
-              console.log(data); 
+              // console.log(data);   logs 'Apt reserved!' 
+
               // when stuff comes back, or when true is sent then display message 'apartment reserved!'       
               //update state or session storage so the apt shows in the user dashboard
             });
@@ -157,7 +160,8 @@ class App extends Component {
         .then((response) => { 
           let data = response.data; 
           
-          console.log(data); 
+          // console.log(data);  logs "Apt removed"
+
           sessionStorage.removeItem('reservedApt');
           window.location.reload();
       });

@@ -5,8 +5,31 @@
 
 .UserAcct div {
     margin-bottom: 20px;
+    margin-top: 40px;
 }
 
-.UserAcct span {
-    margin-right: 20px;
+.UserAcct h3 {
+    margin: 30px 0 40px 0;
+}
+
+.apt-num {
+    margin: 0 100px 0 40px
+}
+
+.UserAcct button {
+    background-color: rgba(11, 60, 93);
+    color: whitesmoke;
+    border-radius: 5px;
+}
+
+.logout-btn {
+    margin-top: 65px;
+    padding: 10px;
+}
+
+.UserAcct section {
+    display: inline-block;
+    border: 1px solid rgba(11, 60, 93);
+    width: 300px;
+    padding: 10px;
 }
